@@ -1,0 +1,11 @@
+{
+  "name": "eventease-api",
+  "version": "1.0.0",
+  "description": "This is an backend api of eventease module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "EventEase-api",
+  "license": "ISC"
+}
