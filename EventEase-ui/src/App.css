@@ -1,42 +1,52 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+@import "tailwindcss";
+
+.auth-container {
+  @apply min-h-screen bg-gray-100 flex items-center justify-center px-4 flex-col;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.auth-box {
+  @apply max-w-md w-full bg-white rounded-2xl shadow-lg p-8;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.auth-title {
+  @apply text-4xl font-semibold text-center text-gray-800 mb-6;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.auth-head {
+  @apply text-5xl font-semibold text-center text-sky-600 mb-9;
 }
 
-.card {
-  padding: 2em;
+.auth-error {
+  @apply text-red-600 text-sm text-center mb-4;
 }
 
-.read-the-docs {
-  color: #888;
+.auth-form {
+  @apply space-y-4;
+}
+
+.auth-label {
+  @apply block text-gray-600 mb-1;
+}
+
+.auth-input {
+  @apply w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2;
+}
+
+.auth-btn {
+  @apply w-full text-white border-gray-900 py-2.5 rounded-lg font-semibold transition duration-300;
+}
+.auth-btn-google {
+  @apply w-full text-black hover:bg-amber-200 py-2.5 rounded-lg font-semibold transition duration-300;
+}
+
+.auth-btn-facebook {
+  @apply w-full text-black hover:bg-amber-200 py-2.5 rounded-lg font-semibold transition duration-300;
+}
+
+.auth-btn-blue {
+  @apply bg-white text-gray-950 hover:bg-sky-500;
+}
+
+.auth-btn-green {
+  @apply bg-green-600 hover:bg-green-700;
 }
