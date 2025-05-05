@@ -1,10 +1,16 @@
-// This file should set up the express server as shown in the lecture code
 import express from "express";
 const app = express();
+import cors from "cors";
 import configRoutes from "./routes/index.js";
 
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"],
+    credentials: true,
+  })
+);
 app.use(express.json());
-
 configRoutes(app);
 
 try {
