@@ -13,7 +13,7 @@
 }
 
 .auth-head {
-  @apply text-5xl font-semibold text-center text-sky-600 mb-9;
+  @apply text-5xl font-semibold text-center text-sky-600 mb-5;
 }
 
 .auth-error {

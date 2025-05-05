@@ -16,6 +16,7 @@ export const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [fullName, setFullName] = useState("");
+  const [role, setRole] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
@@ -28,6 +29,16 @@ export const Register = () => {
       );
       await updateProfile(userCred.user, {
         displayName: fullName,
+      });
+      await fetch("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: userCred.user.uid,
+          fullName,
+          email,
+          role,
+        }),
       });
       navigate("/dashboard");
     } catch (error) {
@@ -55,8 +66,8 @@ export const Register = () => {
 
   return (
     <section className="auth-container">
-      <h2 className="auth-head">EventEase</h2>
-      <div className="auth-box">
+      <h2 className="auth-head mt-1">EventEase</h2>
+      <div className="auth-box mb-1">
         <h2 className="auth-title">Registration</h2>
         {error && <p className="auth-error">{error}</p>}
 
@@ -71,6 +82,18 @@ export const Register = () => {
               className="auth-input focus:ring-green-500"
               required
             />
+          </div>
+          <div>
+            <label className="auth-label">Role</label>
+            <select
+              className="auth-input focus:ring-green-500"
+              onChange={(e) => {
+                setRole(e.target.value);
+              }}>
+              <option value="#">Select Option</option>
+              <option value="user">User</option>
+              <option value="vendor">Vendor</option>
+            </select>
           </div>
           <div>
             <label className="auth-label">Email</label>
