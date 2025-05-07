@@ -1,39 +1,133 @@
-// routes/userRoutes.js
 import express from "express";
+import multer from "multer";
+import path from "path";
+import { exec } from "child_process";
 import { users } from "../config/mongoCollection.js";
-import { ObjectId } from "mongodb";
 
+const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/", upload.single("image"), async (req, res) => {
   const { uid, fullName, email, role } = req.body;
 
-  if (!uid || !fullName || !email || !role) {
-    return res.status(400).json({
-      error: "All fields (uid, fullName, email, role) are required.",
+  if (!uid || !email || !role || !fullName) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  const usersCollection = await users();
+
+  let profilePictureUrl = null;
+
+  try {
+    if (req.file) {
+      const inputPath = req.file.path;
+      const outputFileName = `resized_${req.file.filename}.jpg`;
+      const outputPath = path.join("uploads", outputFileName);
+      const command = `magick "${inputPath}" -resize 150x150 "${outputPath}"`;
+
+      await new Promise((resolve, reject) => {
+        exec(command, (err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      profilePictureUrl = `/uploads/${outputFileName}`;
+    }
+
+    const result = await usersCollection.updateOne(
+      { firebaseUid: uid },
+      {
+        $set: {
+          fullName,
+          email,
+          role,
+          updatedAt: new Date(),
+          ...(profilePictureUrl && { profilePicture: profilePictureUrl }),
+        },
+        $setOnInsert: {
+          createdAt: new Date(),
+          profilePicture: profilePictureUrl || null,
+        },
+      },
+      { upsert: true }
+    );
+
+    const message = result.upsertedCount
+      ? "User created successfully"
+      : "User updated successfully";
+
+    return res.status(200).json({
+      message,
     });
+  } catch (error) {
+    console.error("Error uploading user:", error);
+    return res.status(500).json({ error: "Failed to store user" });
+  }
+});
+
+router.get("/profile-picture/:uid", async (req, res) => {
+  const { uid } = req.params;
+
+  if (!uid) {
+    return res.status(400).json({ error: "UID is required" });
   }
 
   try {
     const usersCollection = await users();
+    const user = await usersCollection.findOne({ firebaseUid: uid });
 
-    const newUser = {
-      firebaseUid: uid,
-      fullName,
-      email,
-      role,
-      createdAt: new Date(),
-    };
+    if (!user || !user.profilePicture) {
+      return res.status(404).json({ error: "Profile picture not found" });
+    }
 
-    await usersCollection.insertOne(newUser);
+    return res.status(200).json({ profilePicture: user.profilePicture });
+  } catch (error) {
+    console.error("Failed to fetch profile picture:", error);
+    return res.status(500).json({ error: "Server error" });
+  }
+});
 
-    return res.status(201).json({
-      message: "User successfully stored in MongoDB",
-      user: newUser,
+router.patch("/profile-picture", upload.single("image"), async (req, res) => {
+  const { uid } = req.body;
+
+  if (!uid || !req.file) {
+    return res.status(400).json({ error: "Missing UID or image" });
+  }
+
+  try {
+    const inputPath = req.file.path;
+    const outputFileName = `resized_${req.file.filename}.jpg`;
+    const outputPath = path.join("uploads", outputFileName);
+    const command = `magick "${inputPath}" -resize 150x150 "${outputPath}"`;
+
+    await new Promise((resolve, reject) => {
+      exec(command, (err) => {
+        if (err) reject(err);
+        else resolve();
+      });
+    });
+
+    const profilePictureUrl = `/uploads/${outputFileName}`;
+
+    const usersCollection = await users();
+
+    const result = await usersCollection.updateOne(
+      { firebaseUid: uid },
+      { $set: { profilePicture: profilePictureUrl } }
+    );
+
+    if (result.modifiedCount === 0) {
+      return res.status(404).json({ error: "User not found or not updated" });
+    }
+
+    return res.status(200).json({
+      message: "Profile picture updated",
+      profilePicture: profilePictureUrl,
     });
   } catch (error) {
-    console.error("MongoDB insert error:", error);
-    return res.status(500).json({ error: "Internal Server Error" });
+    console.error("Profile picture update failed:", error);
+    return res.status(500).json({ error: "Failed to update profile picture" });
   }
 });
 
