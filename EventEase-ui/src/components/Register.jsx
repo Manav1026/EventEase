@@ -7,7 +7,7 @@ import {
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "../firebase.js";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebookF } from "react-icons/fa";
 
@@ -42,25 +42,52 @@ export const Register = () => {
       });
       navigate("/dashboard");
     } catch (error) {
-      setError(error + "Failed to register. Try again.");
+      setError("Failed to register (Invalid Email or Password). Try again.");
     }
   };
 
   const handleGoogleLogin = async () => {
     const provider = new GoogleAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const res = await signInWithPopup(auth, provider);
+      const userAuth = res.user;
+      await fetch("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: userAuth.uid,
+          fullName: userAuth.displayName || "Google User",
+          email: userAuth.email,
+          role: "user",
+        }),
+      });
+
+      navigate("/dashboard");
     } catch (error) {
-      setError("Google login failed: " + error.message);
+      setError("Google login failed");
     }
   };
 
   const handleFacebookLogin = async () => {
     const provider = new FacebookAuthProvider();
     try {
-      await signInWithPopup(auth, provider);
+      const res = await signInWithPopup(auth, provider);
+      const userAuth = res.user;
+
+      await fetch("http://localhost:3000/api/users", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          uid: userAuth.uid,
+          fullName: userAuth.displayName || "Facebook User",
+          email: userAuth.email,
+          role: "user",
+        }),
+      });
+
+      navigate("/dashboard");
     } catch (error) {
-      setError("Facebook login failed: " + error.message);
+      setError("Facebook login failed");
     }
   };
 
@@ -123,6 +150,14 @@ export const Register = () => {
             Register
           </button>
         </form>
+        <div>
+          <p className="mb-3">
+            Already Registered?{" "}
+            <Link to={"/Login"} style={{ color: "blue" }}>
+              Login
+            </Link>
+          </p>
+        </div>
         <p>---------------------------- or ----------------------------</p>
         <div className="mt-6 space-y-3">
           <button
