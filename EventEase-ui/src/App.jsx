@@ -7,9 +7,6 @@ import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
 
 function App() {
-  const handleBulkAdd = (bulkProducts) => {
-    setProducts((prev) => [...bulkProducts, ...prev]);
-  };
   return (
     <>
       <div>
@@ -17,7 +14,13 @@ function App() {
           <Routes>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/register" element={<Register></Register>}></Route>
-            <Route path="/dashboard" element={<Dashboard></Dashboard>}></Route>
+            <Route
+              path="/dashboard"
+              element={
+                <Middleware>
+                  <Dashboard></Dashboard>
+                </Middleware>
+              }></Route>
             <Route
               path="/addProduct"
               element={<AddProduct></AddProduct>}></Route>
