@@ -5,7 +5,6 @@ import { Register } from "./components/Register";
 import { Dashboard } from "./components/Dashboard";
 import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
-import ImportCSV from "./components/ImportCSV";
 
 function App() {
   const handleBulkAdd = (bulkProducts) => {
@@ -22,9 +21,6 @@ function App() {
             <Route
               path="/addProduct"
               element={<AddProduct></AddProduct>}></Route>
-            <Route
-              path="/import"
-              element={<ImportCSV onBulkAdd={handleBulkAdd} />}></Route>
           </Routes>
         </Router>
       </div>

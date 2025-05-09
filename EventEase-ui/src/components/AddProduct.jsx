@@ -18,7 +18,7 @@ const initialForm = {
   mediaPreview: "",
 };
 
-export const AddProduct = ({ onAdd }) => {
+export const AddProduct = () => {
   const [form, setForm] = useState(initialForm);
 //   const [name, setName] = useState("");
 //   const [sku, setSku] = useState("");
@@ -31,7 +31,7 @@ export const AddProduct = ({ onAdd }) => {
 //   const [relatedProductId, setRelatedProductId] = useState("");
 //   const [mediaUrl, setMediaUrl] = useState("");
 //   const [mediaType, setMediaType] = useState("");
-const [csvFile, setCsvFile] = useState(null);
+  const [csvFile, setCsvFile] = useState(null);
 
   const navigate = useNavigate();
 
