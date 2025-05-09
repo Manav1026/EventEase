@@ -8,7 +8,7 @@ const upload = multer({ dest: "uploads/" });
 const router = express.Router();
 
 router.post("/", upload.single("image"), async (req, res) => {
-  const { uid, fullName, email, role } = req.body;
+  const { uid, fullName, email, role, phoneNumber, address } = req.body;
 
   if (!uid || !email || !role || !fullName) {
     return res.status(400).json({ error: "Missing required fields" });
@@ -42,6 +42,8 @@ router.post("/", upload.single("image"), async (req, res) => {
           fullName,
           email,
           role,
+          phoneNumber: phoneNumber || null,
+          address: address || null,
           updatedAt: new Date(),
           ...(profilePictureUrl && { profilePicture: profilePictureUrl }),
         },
@@ -57,8 +59,25 @@ router.post("/", upload.single("image"), async (req, res) => {
       ? "User created successfully"
       : "User updated successfully";
 
+    const updatedUser = await usersCollection.findOne(
+      { firebaseUid: uid },
+      {
+        projection: {
+          _id: 0,
+          fullName: 1,
+          email: 1,
+          role: 1,
+          profilePicture: 1,
+          createdAt: 1,
+          phoneNumber: 1,
+          address: 1,
+        },
+      }
+    );
+
     return res.status(200).json({
       message,
+      user: updatedUser,
     });
   } catch (error) {
     console.error("Error uploading user:", error);
@@ -66,7 +85,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-router.get("/profile-picture/:uid", async (req, res) => {
+router.get("/profile/:uid", async (req, res) => {
   const { uid } = req.params;
 
   if (!uid) {
@@ -75,13 +94,27 @@ router.get("/profile-picture/:uid", async (req, res) => {
 
   try {
     const usersCollection = await users();
-    const user = await usersCollection.findOne({ firebaseUid: uid });
+    const user = await usersCollection.findOne(
+      { firebaseUid: uid },
+      {
+        projection: {
+          _id: 0,
+          fullName: 1,
+          email: 1,
+          role: 1,
+          profilePicture: 1,
+          createdAt: 1,
+          phoneNumber: 1,
+          address: 1,
+        },
+      }
+    );
 
-    if (!user || !user.profilePicture) {
-      return res.status(404).json({ error: "Profile picture not found" });
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
     }
 
-    return res.status(200).json({ profilePicture: user.profilePicture });
+    res.json(user);
   } catch (error) {
     console.error("Failed to fetch profile picture:", error);
     return res.status(500).json({ error: "Server error" });
