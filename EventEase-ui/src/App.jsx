@@ -5,6 +5,7 @@ import { Register } from "./components/Register";
 import { Dashboard } from "./components/Dashboard";
 import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
+import Product from "./components/Product";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
             <Route
               path="/addProduct"
               element={<AddProduct></AddProduct>}></Route>
+            <Route path="/products/:id" element={<Product></Product>}></Route>
           </Routes>
         </Router>
       </div>
