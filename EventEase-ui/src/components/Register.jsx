@@ -21,6 +21,12 @@ export const Register = () => {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    if (!isValidPassword(password)) {
+      setError(
+        "Password must be at least 8 characters long and include uppercase, lowercase, number, and special character."
+      );
+      return;
+    }
     try {
       const userCred = await createUserWithEmailAndPassword(
         auth,
@@ -30,9 +36,15 @@ export const Register = () => {
       await updateProfile(userCred.user, {
         displayName: fullName,
       });
-      await fetch("http://localhost:3000/api/users", {
+
+      const token = await userCred.user.getIdToken();
+
+      const res = await fetch("http://localhost:3000/api/users", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           uid: userCred.user.uid,
           fullName,
@@ -40,7 +52,9 @@ export const Register = () => {
           role,
         }),
       });
-      navigate("/dashboard");
+      if (res.ok) {
+        navigate("/login");
+      }
     } catch (error) {
       setError("Failed to register (Invalid Email or Password). Try again.");
     }
@@ -51,9 +65,13 @@ export const Register = () => {
     try {
       const res = await signInWithPopup(auth, provider);
       const userAuth = res.user;
+      const token = await res.user.getIdToken();
       await fetch("http://localhost:3000/api/users", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           uid: userAuth.uid,
           fullName: userAuth.displayName || "Google User",
@@ -73,10 +91,13 @@ export const Register = () => {
     try {
       const res = await signInWithPopup(auth, provider);
       const userAuth = res.user;
-
+      const token = await res.user.getIdToken();
       await fetch("http://localhost:3000/api/users", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
         body: JSON.stringify({
           uid: userAuth.uid,
           fullName: userAuth.displayName || "Facebook User",
@@ -179,4 +200,10 @@ export const Register = () => {
       </div>
     </section>
   );
+};
+
+const isValidPassword = (password) => {
+  const regex =
+    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+  return regex.test(password);
 };

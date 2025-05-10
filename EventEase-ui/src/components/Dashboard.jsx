@@ -3,46 +3,60 @@ import { FaBoxOpen, FaHeart, FaSignOutAlt, FaHome } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase";
-import { signOut } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 export const Dashboard = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("account");
+  const [activeTab, setActiveTab] = useState("main");
   const [preview, setPreview] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const [userInfo, setUserInfo] = useState(null);
   const [fullNameInput, setFullNameInput] = useState("");
   const [phoneInput, setPhoneInput] = useState("");
   const [addressInput, setAddressInput] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  const fetchUserInfo = async (uid) => {
+    try {
+      const token = await auth.currentUser.getIdToken();
+      const res = await fetch(
+        `http://localhost:3000/api/users/profile/${uid}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const data = await res.json();
+      if (res.ok) {
+        setUserInfo(data);
+        setFullNameInput(data.fullName || "");
+        setPhoneInput(data.phoneNumber || "");
+        setAddressInput(data.address || "");
+        if (data.profilePicture) {
+          setPreview(`http://localhost:3000${data.profilePicture}`);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load user info:", err);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const uid = auth.currentUser?.uid;
-      if (!uid) return;
-
-      try {
-        const res = await fetch(
-          `http://localhost:3000/api/users/profile/${uid}`
-        );
-        const data = await res.json();
-
-        if (res.ok) {
-          setUserInfo(data);
-          setFullNameInput(data.fullName || "");
-          setPhoneInput(data.phoneNumber || "");
-          setAddressInput(data.address || "");
-          if (data.profilePicture) {
-            setPreview(`http://localhost:3000${data.profilePicture}`);
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load user info:", err);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate("/login");
+      } else {
+        fetchUserInfo(user.uid).finally(() => setLoading(false));
       }
-    };
+    });
 
-    fetchUserInfo();
-  }, []);
+    return () => unsubscribe();
+  }, [navigate]);
+
+  if (loading) return <div className="p-8">Checking authentication...</div>;
 
   const handleLogout = async () => {
     try {
@@ -55,10 +69,7 @@ export const Dashboard = () => {
 
   const handleProfileSave = async (e) => {
     e.preventDefault();
-
-    const form = e.target;
-    const image = form.querySelector("input[type='file']").files[0];
-
+    const token = await auth.currentUser.getIdToken();
     const formData = new FormData();
     formData.append("uid", auth.currentUser.uid);
     formData.append("fullName", fullNameInput);
@@ -66,11 +77,13 @@ export const Dashboard = () => {
     formData.append("role", userInfo?.role || "user");
     formData.append("phoneNumber", phoneInput);
     formData.append("address", addressInput);
-    if (image) formData.append("image", image);
 
     try {
       const res = await fetch("http://localhost:3000/api/users", {
         method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
         body: formData,
       });
 
@@ -95,6 +108,7 @@ export const Dashboard = () => {
   };
 
   const handleImageChange = async (e) => {
+    const token = await auth.currentUser.getIdToken();
     const file = e.target.files[0];
     if (!file || !auth.currentUser?.uid) {
       setUploadStatus("No file selected or user not logged in.");
@@ -110,6 +124,9 @@ export const Dashboard = () => {
         "http://localhost:3000/api/users/profile-picture",
         {
           method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
           body: formData,
         }
       );

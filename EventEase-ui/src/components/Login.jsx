@@ -37,10 +37,36 @@ export const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      navigate("/dashboard");
+      const userCred = await signInWithEmailAndPassword(auth, email, password);
+      const token = await userCred.user.getIdToken();
+      const uid = userCred.user.uid;
+
+      const res = await fetch(
+        `http://localhost:3000/api/users/profile/${uid}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      const data = await res.json();
+
+      console.log(data);
+
+      if (res.ok && data.role) {
+        if (data.role === "vendor") {
+          navigate("/addProduct");
+        } else {
+          navigate("/dashboard");
+        }
+      } else {
+        throw new Error("User role not found");
+      }
     } catch (error) {
-      setError(error + "Invalid email or password");
+      setError("Invalid email or password");
+      console.error("Login failed:", error);
     }
   };
 
