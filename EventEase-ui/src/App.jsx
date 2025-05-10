@@ -6,6 +6,7 @@ import { Dashboard } from "./components/Dashboard";
 import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
 import Product from "./components/Product";
+import Checkout from "./components/Checkout";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
               path="/addProduct"
               element={<AddProduct></AddProduct>}></Route>
             <Route path="/products/:id" element={<Product></Product>}></Route>
+            <Route path="/checkout" element={<Checkout></Checkout>}></Route>
           </Routes>
         </Router>
       </div>
