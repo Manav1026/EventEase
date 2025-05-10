@@ -5,8 +5,10 @@ import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { SessionAuth } from "./SessionAuth";
 
 export const Dashboard = () => {
+  SessionAuth();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("main");
   const [preview, setPreview] = useState(null);
