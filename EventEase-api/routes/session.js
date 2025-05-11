@@ -1,6 +1,6 @@
 import express from "express";
 import { users } from "../config/mongoCollection.js";
-import admin from "../config/firebaseadmin.js";
+import admin from "../config/adminFirbase.js";
 
 const router = express.Router();
 

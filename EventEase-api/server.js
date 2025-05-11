@@ -2,7 +2,7 @@ import express from "express";
 const app = express();
 import cors from "cors";
 import configRoutes from "./routes/index.js";
-import { verifyFirebaseToken } from "./middleware/verifyToken.js";
+import { authMiddleware } from "./middleware/authMiddleware.js";
 
 app.use(
   cors({
@@ -12,8 +12,9 @@ app.use(
   })
 );
 app.use(express.json());
+
 app.use("/uploads", express.static("uploads"));
-app.use(verifyFirebaseToken);
+app.use(authMiddleware);
 configRoutes(app);
 
 try {
