@@ -1,7 +1,6 @@
 import { dbConnection, closeConnection } from "../config/mongoConnection.js";
 import {
-  inventory,
-  stock,
+  products,
   orders,
   sales,
   customers,
@@ -13,54 +12,344 @@ const main = async () => {
   const db = await dbConnection();
   await db.dropDatabase();
 
-  const inventoryCollection = await inventory();
-  const stockCollection = await stock();
+  const productsCollection = await products();
   const ordersCollection = await orders();
   const salesCollection = await sales();
   const customersCollection = await customers();
   const reviewsCollection = await reviews();
 
-  // Generate ObjectIds
-  const item1 = new ObjectId();
-  const item2 = new ObjectId();
+  const itemIds = Array.from({ length: 25 }, () => new ObjectId());
   const customer1 = new ObjectId();
   const order1 = new ObjectId();
 
-  await inventoryCollection.insertMany([
+  const inventoryData = [
     {
-      _id: item1,
-      name: "LED Uplighting",
-      category: "lighting",
-      description: "Color-changing uplights perfect for weddings.",
-      vendorId: "vendor123",
-      pricePerDay: 25,
+      name: "Product 1",
+      sku: "SKU0001",
+      description: "Description for product 1",
+      price: 82.88,
+      discountedPrice: 57.92,
+      color: "Red",
+      size: "S",
+      status: "out of stock",
+      quantity: "103",
+      category: "Toys",
     },
     {
-      _id: item2,
-      name: "Folding Chairs",
-      category: "furniture",
-      description: "White folding chairs, lightweight and sturdy.",
-      vendorId: "vendor456",
-      pricePerDay: 2,
+      name: "Product 2",
+      sku: "SKU0002",
+      description: "Description for product 2",
+      price: 12.67,
+      discountedPrice: 9.34,
+      color: "Black",
+      size: "M",
+      status: "in stock",
+      quantity: "186",
+      category: "Electronics",
     },
-  ]);
+    {
+      name: "Product 3",
+      sku: "SKU0003",
+      description: "Description for product 3",
+      price: 98.78,
+      discountedPrice: 56.17,
+      color: "White",
+      size: "M",
+      status: "in stock",
+      quantity: "69",
+      category: "Home",
+    },
+    {
+      name: "Product 4",
+      sku: "SKU0004",
+      description: "Description for product 4",
+      price: 60.3,
+      discountedPrice: 33.02,
+      color: "Black",
+      size: "L",
+      status: "out of stock",
+      quantity: "197",
+      category: "Electronics",
+    },
+    {
+      name: "Product 5",
+      sku: "SKU0005",
+      description: "Description for product 5",
+      price: 58.25,
+      discountedPrice: 50.3,
+      color: "Blue",
+      size: "XL",
+      status: "in stock",
+      quantity: "107",
+      category: "Home",
+    },
+    {
+      name: "Product 6",
+      sku: "SKU0006",
+      description: "Description for product 6",
+      price: 82.69,
+      discountedPrice: 52.08,
+      color: "Green",
+      size: "M",
+      status: "out of stock",
+      quantity: "65",
+      category: "Apparel",
+    },
+    {
+      name: "Product 7",
+      sku: "SKU0007",
+      description: "Description for product 7",
+      price: 85.99,
+      discountedPrice: 54.73,
+      color: "Red",
+      size: "M",
+      status: "in stock",
+      quantity: "101",
+      category: "Toys",
+    },
+    {
+      name: "Product 8",
+      sku: "SKU0008",
+      description: "Description for product 8",
+      price: 43.99,
+      discountedPrice: 24.05,
+      color: "White",
+      size: "XL",
+      status: "in stock",
+      quantity: "19",
+      category: "Apparel",
+    },
+    {
+      name: "Product 9",
+      sku: "SKU0009",
+      description: "Description for product 9",
+      price: 39.65,
+      discountedPrice: 24.5,
+      color: "Blue",
+      size: "M",
+      status: "out of stock",
+      quantity: "158",
+      category: "Apparel",
+    },
+    {
+      name: "Product 10",
+      sku: "SKU0010",
+      description: "Description for product 10",
+      price: 23.98,
+      discountedPrice: 12.93,
+      color: "White",
+      size: "S",
+      status: "out of stock",
+      quantity: "76",
+      category: "Home",
+    },
+    {
+      name: "Product 11",
+      sku: "SKU0011",
+      description: "Description for product 11",
+      price: 35.58,
+      discountedPrice: 25.34,
+      color: "Black",
+      size: "XL",
+      status: "out of stock",
+      quantity: "119",
+      category: "Apparel",
+    },
+    {
+      name: "Product 12",
+      sku: "SKU0012",
+      description: "Description for product 12",
+      price: 25.73,
+      discountedPrice: 19.55,
+      color: "Blue",
+      size: "XL",
+      status: "out of stock",
+      quantity: "93",
+      category: "Home",
+    },
+    {
+      name: "Product 13",
+      sku: "SKU0013",
+      description: "Description for product 13",
+      price: 21.11,
+      discountedPrice: 16.15,
+      color: "Black",
+      size: "L",
+      status: "in stock",
+      quantity: "167",
+      category: "Apparel",
+    },
+    {
+      name: "Product 14",
+      sku: "SKU0014",
+      description: "Description for product 14",
+      price: 14.66,
+      discountedPrice: 8.89,
+      color: "Black",
+      size: "L",
+      status: "in stock",
+      quantity: "43",
+      category: "Toys",
+    },
+    {
+      name: "Product 15",
+      sku: "SKU0015",
+      description: "Description for product 15",
+      price: 34.92,
+      discountedPrice: 29.71,
+      color: "Black",
+      size: "S",
+      status: "out of stock",
+      quantity: "175",
+      category: "Electronics",
+    },
+    {
+      name: "Product 16",
+      sku: "SKU0016",
+      description: "Description for product 16",
+      price: 30.89,
+      discountedPrice: 15.83,
+      color: "Blue",
+      size: "S",
+      status: "out of stock",
+      quantity: "149",
+      category: "Home",
+    },
+    {
+      name: "Product 17",
+      sku: "SKU0017",
+      description: "Description for product 17",
+      price: 87.88,
+      discountedPrice: 65.16,
+      color: "White",
+      size: "M",
+      status: "in stock",
+      quantity: "163",
+      category: "Apparel",
+    },
+    {
+      name: "Product 18",
+      sku: "SKU0018",
+      description: "Description for product 18",
+      price: 79.34,
+      discountedPrice: 61.08,
+      color: "Green",
+      size: "L",
+      status: "in stock",
+      quantity: "32",
+      category: "Apparel",
+    },
+    {
+      name: "Product 19",
+      sku: "SKU0019",
+      description: "Description for product 19",
+      price: 86.44,
+      discountedPrice: 69.96,
+      color: "Blue",
+      size: "M",
+      status: "out of stock",
+      quantity: "51",
+      category: "Home",
+    },
+    {
+      name: "Product 20",
+      sku: "SKU0020",
+      description: "Description for product 20",
+      price: 83.67,
+      discountedPrice: 49.42,
+      color: "White",
+      size: "S",
+      status: "out of stock",
+      quantity: "115",
+      category: "Home",
+    },
+    {
+      name: "Product 21",
+      sku: "SKU0021",
+      description: "Description for product 21",
+      price: 52.95,
+      discountedPrice: 27.46,
+      color: "Blue",
+      size: "XL",
+      status: "in stock",
+      quantity: "187",
+      category: "Electronics",
+    },
+    {
+      name: "Product 22",
+      sku: "SKU0022",
+      description: "Description for product 22",
+      price: 75.74,
+      discountedPrice: 45.08,
+      color: "Blue",
+      size: "L",
+      status: "in stock",
+      quantity: "155",
+      category: "Home",
+    },
+    {
+      name: "Product 23",
+      sku: "SKU0023",
+      description: "Description for product 23",
+      price: 53.2,
+      discountedPrice: 33.24,
+      color: "Red",
+      size: "S",
+      status: "out of stock",
+      quantity: "39",
+      category: "Home",
+    },
+    {
+      name: "Product 24",
+      sku: "SKU0024",
+      description: "Description for product 24",
+      price: 33.47,
+      discountedPrice: 21.89,
+      color: "White",
+      size: "S",
+      status: "out of stock",
+      quantity: "86",
+      category: "Home",
+    },
+    {
+      name: "Product 25",
+      sku: "SKU0025",
+      description: "Description for product 25",
+      price: 24.65,
+      discountedPrice: 17.93,
+      color: "Blue",
+      size: "L",
+      status: "out of stock",
+      quantity: "127",
+      category: "Toys",
+    },
+  ];
 
-  await stockCollection.insertMany([
-    {
-      _id: new ObjectId(),
-      itemId: item1,
-      quantity: 20,
-      location: "NYC",
-      availableDates: [],
-    },
-    {
-      _id: new ObjectId(),
-      itemId: item2,
-      quantity: 100,
-      location: "NYC",
-      availableDates: [],
-    },
-  ]);
+  const inventoryInsertData = inventoryData.map((item, index) => ({
+    _id: itemIds[index],
+    ...item,
+    relatedProductId: null,
+    media: null,
+    mediaPreview: null,
+  }));
+
+  await productsCollection.insertMany(inventoryInsertData);
+  // await stockCollection.insertMany([
+  //   {
+  //     _id: new ObjectId(),
+  //     itemId: item1,
+  //     quantity: 20,
+  //     location: "NYC",
+  //     availableDates: [],
+  //   },
+  //   {
+  //     _id: new ObjectId(),
+  //     itemId: item2,
+  //     quantity: 100,
+  //     location: "NYC",
+  //     availableDates: [],
+  //   },
+  // ]);
 
   await customersCollection.insertMany([
     {
@@ -72,37 +361,37 @@ const main = async () => {
     },
   ]);
 
-  await ordersCollection.insertMany([
-    {
-      _id: order1,
-      customerId: customer1,
-      itemId: item1,
-      startDate: new Date("2025-06-01"),
-      endDate: new Date("2025-06-03"),
-      status: "pending",
-    },
-  ]);
+  // await ordersCollection.insertMany([
+  //   {
+  //     _id: order1,
+  //     customerId: customer1,
+  //     itemId: item1,
+  //     startDate: new Date("2025-06-01"),
+  //     endDate: new Date("2025-06-03"),
+  //     status: "pending",
+  //   },
+  // ]);
 
-  await salesCollection.insertMany([
-    {
-      _id: new ObjectId(),
-      orderId: order1,
-      total: 75,
-      date: new Date(),
-      paymentMethod: "credit_card",
-    },
-  ]);
+  // await salesCollection.insertMany([
+  //   {
+  //     _id: new ObjectId(),
+  //     orderId: order1,
+  //     total: 75,
+  //     date: new Date(),
+  //     paymentMethod: "credit_card",
+  //   },
+  // ]);
 
-  await reviewsCollection.insertMany([
-    {
-      _id: new ObjectId(),
-      itemId: item1,
-      customerId: customer1,
-      rating: 5,
-      comment: "Worked perfectly for our wedding. Highly recommend!",
-      date: new Date(),
-    },
-  ]);
+  // await reviewsCollection.insertMany([
+  //   {
+  //     _id: new ObjectId(),
+  //     itemId: item1,
+  //     customerId: customer1,
+  //     rating: 5,
+  //     comment: "Worked perfectly for our wedding. Highly recommend!",
+  //     date: new Date(),
+  //   },
+  // ]);
 
   console.log("Done seeding EventEase database!");
   await closeConnection();

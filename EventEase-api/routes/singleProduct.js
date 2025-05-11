@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get('/:id', async (req, res) => {
     const id = req.params.id;
-    console.log("Getting prodcut with ID: ", id)
+    console.log("Getting product with ID: ", id)
     try {
         const productCollection = await products();
         const product = await productCollection.findOne({ _id: new ObjectId(id) });

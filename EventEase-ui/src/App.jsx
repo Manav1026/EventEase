@@ -7,6 +7,7 @@ import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
 import Product from "./components/Product";
 import Checkout from "./components/Checkout";
+import ProductsLandingPage from "./components/AllProducts";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <div>
         <Router>
           <Routes>
+            <Route path="/" element={<ProductsLandingPage></ProductsLandingPage>}></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/register" element={<Register></Register>}></Route>
             <Route
