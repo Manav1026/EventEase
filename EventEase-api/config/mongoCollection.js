@@ -13,7 +13,6 @@ const getCollectionFn = (collection) => {
 };
 
 export const inventory = getCollectionFn("inventory");
-export const stock = getCollectionFn("available_stock");
 export const orders = getCollectionFn("orders");
 export const sales = getCollectionFn("sales");
 export const customers = getCollectionFn("customers");
