@@ -60,7 +60,7 @@ export const Login = () => {
 
       if (res.ok && data.role) {
         if (data.role === "vendor") {
-          navigate("/addProduct");
+          navigate("/admin");
         } else {
           navigate("/dashboard");
         }

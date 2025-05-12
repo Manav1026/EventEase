@@ -8,6 +8,8 @@ import { AddProduct } from "./components/AddProduct";
 // import Product from "./components/Product";
 // import Checkout from "./components/Checkout";
 import ProductsLandingPage from "./components/AllProducts";
+import { Admin } from "./components/Admin";
+import EditProduct from "./components/EditProduct";
 
 function App() {
   return (
@@ -25,9 +27,15 @@ function App() {
                   <Dashboard></Dashboard>
                 </Middleware>
               }></Route>
-            <Route
-              path="/addProduct"
-              element={<AddProduct></AddProduct>}></Route>
+              <Route
+                path="/addProduct"
+                element={<AddProduct></AddProduct>}>
+              </Route>
+              <Route path="/admin" element={<Admin></Admin>}></Route>
+              <Route
+                path="/editProduct/:id"
+                element={<EditProduct></EditProduct>}>
+              </Route>
           </Routes>
         </Router>
       </div>

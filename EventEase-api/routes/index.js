@@ -1,5 +1,5 @@
 import userRoute from "./users.js";
-import productRoute from "./addProduct.js";
+import productRoute from "./products.js";
 import sessionRoute from "./session.js";
 import productsRoute from "./singleProduct.js";
 import allProductsRoute from "./allProducts.js"
