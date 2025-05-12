@@ -4,19 +4,21 @@ import { Navigate } from "react-router-dom";
 import { auth } from "../firebase";
 
 export const Middleware = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
-  const [checking, setChecking] = useState(true);
 
   useEffect(() => {
-    const unAuthorized = onAuthStateChanged(auth, (firebaseUser) => {
+    const unauthorised = onAuthStateChanged(auth, (firebaseUser) => {
       setUser(firebaseUser);
-      setChecking(false);
+      setLoading(false);
     });
 
-    return () => unAuthorized();
+    return () => unauthorised();
   }, []);
 
-  if (checking) return <p>Loading...</p>;
+  if (loading) {
+    return <div className="text-center p-8">Loading...</div>;
+  }
 
   return user ? children : <Navigate to="/login" replace />;
 };

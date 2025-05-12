@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import {
-  setPersistence,
-  browserSessionPersistence,
   signInWithEmailAndPassword,
   GoogleAuthProvider,
   FacebookAuthProvider,
@@ -39,7 +37,6 @@ export const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      await setPersistence(auth, browserSessionPersistence);
       const userCred = await signInWithEmailAndPassword(auth, email, password);
       const token = await userCred.user.getIdToken();
       const uid = userCred.user.uid;

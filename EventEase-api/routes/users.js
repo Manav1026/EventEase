@@ -3,6 +3,7 @@ import multer from "multer";
 import path from "path";
 import { exec } from "child_process";
 import { users } from "../config/mongoCollection.js";
+import { authMiddleware } from "../middleware/authMiddleware.js";
 
 const upload = multer({ dest: "uploads/" });
 const router = express.Router();
@@ -85,7 +86,7 @@ router.post("/", upload.single("image"), async (req, res) => {
   }
 });
 
-router.get("/profile/:uid", async (req, res) => {
+router.get("/profile/:uid", authMiddleware, async (req, res) => {
   const { uid } = req.params;
 
   if (!uid) {
@@ -121,47 +122,54 @@ router.get("/profile/:uid", async (req, res) => {
   }
 });
 
-router.patch("/profile-picture", upload.single("image"), async (req, res) => {
-  const { uid } = req.body;
+router.patch(
+  "/profile-picture",
+  authMiddleware,
+  upload.single("image"),
+  async (req, res) => {
+    const { uid } = req.body;
 
-  if (!uid || !req.file) {
-    return res.status(400).json({ error: "Missing UID or image" });
-  }
-
-  try {
-    const inputPath = req.file.path;
-    const outputFileName = `resized_${req.file.filename}.jpg`;
-    const outputPath = path.join("uploads", outputFileName);
-    const command = `magick "${inputPath}" -resize 150x150 "${outputPath}"`;
-
-    await new Promise((resolve, reject) => {
-      exec(command, (err) => {
-        if (err) reject(err);
-        else resolve();
-      });
-    });
-
-    const profilePictureUrl = `/uploads/${outputFileName}`;
-
-    const usersCollection = await users();
-
-    const result = await usersCollection.updateOne(
-      { firebaseUid: uid },
-      { $set: { profilePicture: profilePictureUrl } }
-    );
-
-    if (result.modifiedCount === 0) {
-      return res.status(404).json({ error: "User not found or not updated" });
+    if (!uid || !req.file) {
+      return res.status(400).json({ error: "Missing UID or image" });
     }
 
-    return res.status(200).json({
-      message: "Profile picture updated",
-      profilePicture: profilePictureUrl,
-    });
-  } catch (error) {
-    console.error("Profile picture update failed:", error);
-    return res.status(500).json({ error: "Failed to update profile picture" });
+    try {
+      const inputPath = req.file.path;
+      const outputFileName = `resized_${req.file.filename}.jpg`;
+      const outputPath = path.join("uploads", outputFileName);
+      const command = `magick "${inputPath}" -resize 150x150 "${outputPath}"`;
+
+      await new Promise((resolve, reject) => {
+        exec(command, (err) => {
+          if (err) reject(err);
+          else resolve();
+        });
+      });
+
+      const profilePictureUrl = `/uploads/${outputFileName}`;
+
+      const usersCollection = await users();
+
+      const result = await usersCollection.updateOne(
+        { firebaseUid: uid },
+        { $set: { profilePicture: profilePictureUrl } }
+      );
+
+      if (result.modifiedCount === 0) {
+        return res.status(404).json({ error: "User not found or not updated" });
+      }
+
+      return res.status(200).json({
+        message: "Profile picture updated",
+        profilePicture: profilePictureUrl,
+      });
+    } catch (error) {
+      console.error("Profile picture update failed:", error);
+      return res
+        .status(500)
+        .json({ error: "Failed to update profile picture" });
+    }
   }
-});
+);
 
 export default router;

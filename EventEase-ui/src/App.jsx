@@ -6,7 +6,7 @@ import { Dashboard } from "./components/Dashboard";
 import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
 import { EditProduct } from "./components/EditProduct";
-import {Admin} from "./components/Admin";
+import { Admin } from "./components/Admin";
 // import Product from "./components/Product";
 // import Checkout from "./components/Checkout";
 import ProductsLandingPage from "./components/AllProducts";
@@ -17,7 +17,13 @@ function App() {
       <div>
         <Router>
           <Routes>
-            <Route path="/" element={<ProductsLandingPage></ProductsLandingPage>}></Route>
+            <Route
+              path="/"
+              element={
+                <Middleware>
+                  <ProductsLandingPage></ProductsLandingPage>
+                </Middleware>
+              }></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/register" element={<Register></Register>}></Route>
             <Route
@@ -27,15 +33,19 @@ function App() {
                   <Dashboard></Dashboard>
                 </Middleware>
               }></Route>
-              <Route
-                path="/addProduct"
-                element={<AddProduct></AddProduct>}>
-              </Route>
-              <Route path="/admin" element={<Admin></Admin>}></Route>
-              <Route
-                path="/editProduct/:id"
-                element={<EditProduct></EditProduct>}>
-              </Route>
+            <Route
+              path="/addProduct"
+              element={<AddProduct></AddProduct>}></Route>
+            <Route
+              path="/admin"
+              element={
+                <Middleware>
+                  <Admin></Admin>
+                </Middleware>
+              }></Route>
+            <Route
+              path="/editProduct/:id"
+              element={<EditProduct></EditProduct>}></Route>
           </Routes>
         </Router>
       </div>
