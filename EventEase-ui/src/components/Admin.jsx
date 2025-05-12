@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { FaHome, FaBox, FaShoppingCart, FaUsers, FaPlusCircle } from "react-icons/fa";
+import {
+  FaHome,
+  FaBox,
+  FaShoppingCart,
+  FaUsers,
+  FaPlusCircle,
+} from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase";
@@ -7,51 +13,84 @@ import { signOut } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
 export const Admin = () => {
-    const navigate = useNavigate();
-    const [preview, setPreview] = useState(null);
-    const [uploadStatus, setUploadStatus] = useState("");
-    const [products, setProducts] = useState([]);
-    const [selected, setSelected] = useState([]);
-    const userId = auth.currentUser?.uid;
-    //console.log(userId);
+  const navigate = useNavigate();
+  const [preview, setPreview] = useState(null);
+  // const [uploadStatus, setUploadStatus] = useState("");
+  const [products, setProducts] = useState([]);
+  const [selected, setSelected] = useState([]);
+  const userId = auth.currentUser?.uid;
+  //console.log(userId);
 
-    useEffect(() => {
-        if(!userId){
-            navigate("/login");
+  useEffect(() => {
+    if (!userId) {
+      navigate("/login");
+    }
+    const fetchProducts = async () => {
+      const waitForUser = async () => {
+        while (!auth.currentUser) {
+          await new Promise((resolve) => setTimeout(resolve, 100));
         }
-        const fetchProducts = async () => {
-          const waitForUser = async () => {
-            while (!auth.currentUser) {
-              await new Promise((resolve) => setTimeout(resolve, 100)); 
+
+        const user = auth.currentUser;
+        const token = await user.getIdToken();
+        const userId = user.uid;
+        console.log("Fetched user ID:", userId);
+
+        try {
+          const res = await fetch(
+            `http://localhost:3000/api/vendor/products/${userId}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
             }
-      
-            const user = auth.currentUser;
-            const token = await user.getIdToken();
-            const userId = user.uid;
-            console.log("Fetched user ID:", userId);
-            
-            try {
-              const res = await fetch(`http://localhost:3000/api/vendor/products/${userId}`, {
-                method: "GET",
-                headers: {
-                  "Content-Type": "application/json",
-                  Authorization: `Bearer ${token}`,
-                },
-              });
-      
-              const data = await res.json();
-              setProducts(Array.isArray(data) ? data : data.products || []);
-            } catch (err) {
-              console.error("Failed to fetch products", err);
-            }
-          };
-      
-          waitForUser();
-        };
-      
-        fetchProducts();
-      }, []);
-      
+          );
+
+          const data = await res.json();
+          if (res.ok) {
+            setProducts(Array.isArray(data) ? data : data.products || []);
+          }
+        } catch (err) {
+          console.error("Failed to fetch products", err);
+        }
+      };
+
+      waitForUser();
+    };
+
+    fetchProducts();
+  }, [navigate, userId]);
+
+  useEffect(() => {
+    const fetchUserInfo = async () => {
+      try {
+        const uid = auth.currentUser.uid;
+        const token = await auth.currentUser.getIdToken();
+        const res = await fetch(
+          `http://localhost:3000/api/users/profile/${uid}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await res.json();
+        if (res.ok) {
+          if (data.profilePicture) {
+            setPreview(`http://localhost:3000${data.profilePicture}`);
+          }
+        }
+      } catch (err) {
+        console.error("Failed to load user info:", err);
+      }
+    };
+
+    fetchUserInfo();
+  }, []);
+
   const handleSelect = (id) => {
     setSelected((prev) =>
       prev.includes(id) ? prev.filter((sid) => sid !== id) : [...prev, id]
@@ -85,11 +124,14 @@ export const Admin = () => {
     }
     if (!window.confirm("Delete this product?")) return;
     try {
-      const response = await fetch(`http://localhost:3000/api/vendor/products/${id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" }
-      });
-  
+      const response = await fetch(
+        `http://localhost:3000/api/vendor/products/${id}`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
       if (!response.ok) {
         const error = await response.json();
         throw new Error(error?.message || "Delete failed");
@@ -100,7 +142,7 @@ export const Admin = () => {
       console.error("Delete failed:", err);
     }
   };
-  
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -110,41 +152,41 @@ export const Admin = () => {
     }
   };
 
-  const handleImageChange = async (e) => {
-    const file = e.target.files[0];
-    if (!file || !auth.currentUser?.uid) {
-      setUploadStatus("No file selected or user not logged in.");
-      return;
-    }
+  // const handleImageChange = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file || !auth.currentUser?.uid) {
+  //     setUploadStatus("No file selected or user not logged in.");
+  //     return;
+  //   }
 
-    setPreview(URL.createObjectURL(file));
-    setUploadStatus("Uploading...");
+  //   setPreview(URL.createObjectURL(file));
+  //   setUploadStatus("Uploading...");
 
-    const formData = new FormData();
-    formData.append("uid", auth.currentUser.uid);
-    formData.append("image", file);
+  //   const formData = new FormData();
+  //   formData.append("uid", auth.currentUser.uid);
+  //   formData.append("image", file);
 
-    try {
-      const res = await fetch(
-        "http://localhost:3000/api/users/profile-picture",
-        {
-          method: "PATCH",
-          body: formData,
-        }
-      );
+  //   try {
+  //     const res = await fetch(
+  //       "http://localhost:3000/api/users/profile-picture",
+  //       {
+  //         method: "PATCH",
+  //         body: formData,
+  //       }
+  //     );
 
-      const data = await res.json();
-      if (res.ok) {
-        setUploadStatus("Upload successful!");
-        setPreview(`http://localhost:3000${data.profilePicture}`);
-      } else {
-        setUploadStatus(data.error || "Upload failed.");
-      }
-    } catch (err) {
-      console.error(err);
-      setUploadStatus("Upload failed.");
-    }
-  };
+  //     const data = await res.json();
+  //     if (res.ok) {
+  //       setUploadStatus("Upload successful!");
+  //       setPreview(`http://localhost:3000${data.profilePicture}`);
+  //     } else {
+  //       setUploadStatus(data.error || "Upload failed.");
+  //     }
+  //   } catch (err) {
+  //     console.error(err);
+  //     setUploadStatus("Upload failed.");
+  //   }
+  // };
   return (
     <div className="flex h-screen bg-gray-100">
       <aside className="w-64 bg-white shadow-lg">
@@ -162,7 +204,8 @@ export const Admin = () => {
           <Link
             to="/dashboard"
             className="flex items-center space-x-3 hover:text-green-600">
-            <CgProfile size={20} /><span>Profile</span>
+            <CgProfile size={20} />
+            <span>Profile</span>
           </Link>
           <Link
             to="/orders"
@@ -202,19 +245,19 @@ export const Admin = () => {
                   </div>
                 )}
               </div>
-              <input
+              {/* <input
                 id="profile-pic"
                 type="file"
                 accept="image/*"
                 onChange={handleImageChange}
                 className="hidden"
-              />
+              /> */}
             </label>
-            {uploadStatus && (
+            {/* {uploadStatus && (
               <span className="text-sm italic text-gray-500">
                 {uploadStatus}
               </span>
-            )}
+            )} */}
 
             <button
               onClick={handleLogout}
@@ -223,29 +266,28 @@ export const Admin = () => {
             </button>
           </div>
         </header>
-        <div className="p-6 max-w-7xl mx-auto" style={{overflowY: "auto"}}>
-        <h1 className="text-3xl font-bold mb-4">Admin Product Listing</h1>
-        <div className="flex justify-between items-center mb-4">
+        <div className="p-6 max-w-7xl mx-auto" style={{ overflowY: "auto" }}>
+          <h1 className="text-3xl font-bold mb-4">Admin Product Listing</h1>
+          <div className="flex justify-between items-center mb-4">
             {selected.length > 0 && (
-            <button
+              <button
                 onClick={handleBulkDelete}
-                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
-            >
+                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
                 Delete Selected ({selected.length})
-            </button>
+              </button>
             )}
-        </div>
-        {products.length > 0 ? (
+          </div>
+          {products.length > 0 ? (
             <div className="overflow-y rounded shadow border">
-                <table className="min-w-full text-sm text-left">
+              <table className="min-w-full text-sm text-left">
                 <thead className="bg-gray-100">
-                    <tr>
+                  <tr>
                     <th className="px-4 py-2 border-r">
-                        <input
+                      <input
                         type="checkbox"
                         checked={selected.length === products.length}
                         onChange={handleSelectAll}
-                        />
+                      />
                     </th>
                     <th className="px-4 py-2">#</th>
                     <th className="px-4 py-2">Name</th>
@@ -256,49 +298,48 @@ export const Admin = () => {
                     <th className="px-4 py-2">Status</th>
                     <th className="px-4 py-2">Category</th>
                     <th className="px-4 py-2">Actions</th>
-                    </tr>
+                  </tr>
                 </thead>
                 <tbody>
-                    {products.map((prod, index) => (
+                  {products.map((prod, index) => (
                     <tr key={index} className="border-t">
-                        <td className="px-4 py-2 border-r">
+                      <td className="px-4 py-2 border-r">
                         <input
-                            type="checkbox"
-                            checked={selected.includes(prod._id)}
-                            onChange={() => handleSelect(prod._id)}
+                          type="checkbox"
+                          checked={selected.includes(prod._id)}
+                          onChange={() => handleSelect(prod._id)}
                         />
-                        </td>
-                        <td className="px-4 py-2">{index + 1}</td>
-                        <td className="px-4 py-2">{prod.name}</td>
-                        <td className="px-4 py-2">{prod.sku}</td>
-                        <td className="px-4 py-2">${prod.price || 0}</td>
-                        <td className="px-4 py-2">
+                      </td>
+                      <td className="px-4 py-2">{index + 1}</td>
+                      <td className="px-4 py-2">{prod.name}</td>
+                      <td className="px-4 py-2">{prod.sku}</td>
+                      <td className="px-4 py-2">${prod.price || 0}</td>
+                      <td className="px-4 py-2">
                         ${prod.discountedPrice || prod.price}
-                        </td>
-                        <td className="px-4 py-2">{prod.quantity}</td>
-                        <td className="px-4 py-2">{prod.status}</td>
-                        <td className="px-4 py-2">{prod.category}</td>
-                        <td className="px-4 py-2">
+                      </td>
+                      <td className="px-4 py-2">{prod.quantity}</td>
+                      <td className="px-4 py-2">{prod.status}</td>
+                      <td className="px-4 py-2">{prod.category}</td>
+                      <td className="px-4 py-2">
                         <button className="text-blue-600 hover:underline mr-2">
-                            <Link to={`/editProduct/${prod._id}`}>Edit</Link>
+                          <Link to={`/editProduct/${prod._id}`}>Edit</Link>
                         </button>
                         <button
-                            onClick={() => handleDelete(prod._id)}
-                            className="text-red-600 hover:underline"
-                        >
-                            Delete
+                          onClick={() => handleDelete(prod._id)}
+                          className="text-red-600 hover:underline">
+                          Delete
                         </button>
-                        </td>
+                      </td>
                     </tr>
-                    ))}
+                  ))}
                 </tbody>
-                </table>
+              </table>
             </div>
-            ) : (
+          ) : (
             <div className="text-center text-gray-500 text-lg mt-10">
-                No products found.
+              No products found.
             </div>
-            )}
+          )}
         </div>
       </div>
     </div>

@@ -223,16 +223,14 @@ export const Dashboard = () => {
     <div className="flex min-h-screen bg-gray-100">
       <aside className="w-64 bg-white shadow-md">
         <div className="p-6 border-b text-2xl font-bold text-green-600 text-center">
-          <a href="/">EventEase</a>
+          EventEase
         </div>
         <nav className="p-4 flex flex-col gap-4 text-gray-700 text-lg">
-          <Link to="/">
           <button
             onClick={() => setActiveTab("main")}
             className="flex items-center gap-2 hover:text-green-600">
             <FaHome size={20} /> Home
           </button>
-          </Link>
 
           <button
             onClick={() => setActiveTab("account")}
@@ -243,11 +241,6 @@ export const Dashboard = () => {
             onClick={() => setActiveTab("orders")}
             className="flex items-center gap-2 hover:text-green-600">
             <FaBoxOpen size={20} /> Orders
-          </button>
-          <button
-            onClick={() => setActiveTab("wishlist")}
-            className="flex items-center gap-2 hover:text-green-600">
-            <FaHeart size={20} /> Wishlist
           </button>
           <button
             onClick={handleLogout}
@@ -314,20 +307,27 @@ export const Dashboard = () => {
               Profile Overview
             </h2>
             <div className="mb-6 flex items-center gap-4">
-              <label
-                htmlFor="profile-upload"
-                className="cursor-pointer relative group">
-                {preview ? (
-                  <img
-                    src={preview}
-                    alt="Profile"
-                    className="w-24 h-24 rounded-full object-cover ring-2 ring-green-500 hover:ring-green-400 transition"
-                  />
-                ) : (
-                  <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-4xl ring-2 ring-green-500">
-                    <CgProfile />
-                  </div>
-                )}
+              <div className="flex flex-col items-center">
+                <label
+                  htmlFor="profile-upload"
+                  className="cursor-pointer relative group">
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt="Profile"
+                      className="w-24 h-24 rounded-full object-cover ring-2 ring-green-500 hover:ring-green-400 transition"
+                    />
+                  ) : (
+                    <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center text-gray-500 text-4xl ring-2 ring-green-500">
+                      <CgProfile />
+                    </div>
+                  )}
+                </label>
+                <label
+                  htmlFor="profile-upload"
+                  className="mt-2 text-sm text-blue-600 cursor-pointer hover:underline">
+                  Click here to upload photo
+                </label>
                 <input
                   id="profile-upload"
                   type="file"
@@ -335,7 +335,7 @@ export const Dashboard = () => {
                   onChange={handleImageChange}
                   className="hidden"
                 />
-              </label>
+              </div>
 
               <div>
                 {uploadStatus && (
