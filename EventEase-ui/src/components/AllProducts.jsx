@@ -18,7 +18,15 @@ const ProductsLandingPage = () => {
       product.category.toLowerCase().includes(search)
     );
   });
-  const token = auth.currentUser?.getIdToken();
+  const user = auth.currentUser;
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      navigate("/login");
+    } catch (err) {
+      console.error("Logout failed:", err);
+    }
+  };
   const totalPages = Math.ceil(filteredProducts.length / itemsPerPage);
   const startIdx = (currentPage - 1) * itemsPerPage;
   const paginatedProducts = filteredProducts.slice(startIdx, startIdx + itemsPerPage);
@@ -30,23 +38,42 @@ const ProductsLandingPage = () => {
     <div className="bg-gray-100 min-h-screen px-4 sm:px-8 pb-10">
       <header className="flex justify-between items-center py-6 border-b border-gray-300">
         <h1 className="text-3xl font-bold text-blue-700">EventEase</h1>
-        {token ? (
-            <div className="space-x-4">
-            <Link to="/login">
-              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</button>
+        {user ? (
+          <div className="flex items-center space-x-6">
+            <Link
+              to="/dashboard"
+              className="flex items-center text-blue-700 hover:text-blue-900 font-medium"
+            >
+              <CgProfile size={22} className="mr-1" />
+              Profile
             </Link>
-            <Link to="/register">
-              <button className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Sign Up</button>
-            </Link>
+            <button
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-gray-700 hover:text-blue-700 transition font-medium"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 11-4 0v-1m0-8V7a2 2 0 114 0v1" />
+              </svg>
+              Logout
+            </button>
           </div>
         ) : (
-          <div className="space-x-4">
-            <Link to="/dashboard">
-              <button className="flex items-center gap-2 hover:text-green-600">
-                <CgProfile size={20} /> Profile</button>
-            </Link>
-          </div>
-        )}
+    <div className="space-x-4">
+      <Link to="/login">
+        <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Login</button>
+      </Link>
+      <Link to="/register">
+        <button className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">Sign Up</button>
+      </Link>
+    </div>
+  )}
+
         
       </header>
 
