@@ -223,14 +223,16 @@ export const Dashboard = () => {
     <div className="flex min-h-screen bg-gray-100">
       <aside className="w-64 bg-white shadow-md">
         <div className="p-6 border-b text-2xl font-bold text-green-600 text-center">
-          EventEase
+          <a href="/">EventEase</a>
         </div>
         <nav className="p-4 flex flex-col gap-4 text-gray-700 text-lg">
+          <Link to="/">
           <button
             onClick={() => setActiveTab("main")}
             className="flex items-center gap-2 hover:text-green-600">
             <FaHome size={20} /> Home
           </button>
+          </Link>
 
           <button
             onClick={() => setActiveTab("account")}

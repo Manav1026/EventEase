@@ -5,11 +5,11 @@ import { Register } from "./components/Register";
 import { Dashboard } from "./components/Dashboard";
 import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
+import { EditProduct } from "./components/EditProduct";
+import {Admin} from "./components/Admin";
 // import Product from "./components/Product";
 // import Checkout from "./components/Checkout";
 import ProductsLandingPage from "./components/AllProducts";
-import { Admin } from "./components/Admin";
-import EditProduct from "./components/EditProduct";
 
 function App() {
   return (
