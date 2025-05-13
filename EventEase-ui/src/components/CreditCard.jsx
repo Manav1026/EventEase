@@ -2,6 +2,10 @@ import { useContext, useState } from "react";
 import Cards from "react-credit-cards-2";
 import "react-credit-cards-2/dist/es/styles-compiled.css";
 import { CartContext } from "./CartContextProvider";
+import { auth } from "../firebase";
+import * as cardValidator from "card-validator";
+
+
 
 const CreditCard = () => {
     const [card, setCard] = useState({
@@ -12,7 +16,40 @@ const CreditCard = () => {
         focus: "",
     });
 
-    const { clearCart } = useContext(CartContext)
+    const { clearCart, cart } = useContext(CartContext)
+
+    const completeOrder = async (e) => {
+        e.preventDefault();
+        const token = await auth.currentUser.getIdToken();
+        
+        // TODO GET CUSTOMER ID
+        const newOrderItems = cart.map(x => {
+            return {
+                productId: x._id,
+                orderQuantity: x.orderQuantity,
+                startDate: x.startDate,
+                endDate: x.endDate,
+            }
+        })
+
+        const newOrder = {
+            // customerId,
+            products: newOrderItems,
+        }
+        console.log(newOrder)
+        try{
+            // const res = await fetch("http://localhost:3000/orders", {
+            //     method: "POST",
+            //     headers: {
+            //         Authorization: `Bearer ${token}`,
+            //     },
+            //     body: formData,
+            // });
+
+            // const data = await res.json();
+            // clearCart();
+        } catch(e){}
+    }
 
     const handleInputChange = (evt) => {
         const { name, value } = evt.target;
@@ -33,9 +70,7 @@ const CreditCard = () => {
                 name={card.name}
                 focused={card.focus}
             />
-            <form  onSubmit={() => {
-                console.log(card);
-            }}>
+            <form onSubmit={completeOrder}>
                 <input
                     type="number"
                     name="number"
@@ -43,6 +78,7 @@ const CreditCard = () => {
                     value={card.number}
                     onChange={handleInputChange}
                     onFocus={handleInputFocus}
+                    required
                 />
                 <br />
                 <input
@@ -52,6 +88,7 @@ const CreditCard = () => {
                     value={card.expiry}
                     onChange={handleInputChange}
                     onFocus={handleInputFocus}
+                    required
                 />
                 <br />
                 <input
@@ -61,6 +98,7 @@ const CreditCard = () => {
                     value={card.name}
                     onChange={handleInputChange}
                     onFocus={handleInputFocus}
+                    required
                 />
                 <br />
                 <input
@@ -70,6 +108,7 @@ const CreditCard = () => {
                     value={card.cvc}
                     onChange={handleInputChange}
                     onFocus={handleInputFocus}
+                    required
                 />
                 <br />
                 <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">

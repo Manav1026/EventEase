@@ -81,6 +81,7 @@ export const Dashboard = () => {
     formData.append("role", userInfo?.role || "user");
     formData.append("phoneNumber", phoneInput);
     formData.append("address", addressInput);
+    formData.append("orders", []);
 
     try {
       const res = await fetch("http://localhost:3000/api/users", {
