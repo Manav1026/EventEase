@@ -10,6 +10,7 @@ import { Admin } from "./components/Admin";
 // import Product from "./components/Product";
 // import Checkout from "./components/Checkout";
 import ProductsLandingPage from "./components/AllProducts";
+import { ErrorPage } from "./components/ErrorPage";
 
 function App() {
   return (
@@ -17,11 +18,10 @@ function App() {
       <div>
         <Router>
           <Routes>
+            <Route path="*" element={<ErrorPage></ErrorPage>}></Route>
             <Route
               path="/"
-              element={
-                  <ProductsLandingPage></ProductsLandingPage>
-              }></Route>
+              element={<ProductsLandingPage></ProductsLandingPage>}></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/register" element={<Register></Register>}></Route>
             <Route
@@ -33,7 +33,11 @@ function App() {
               }></Route>
             <Route
               path="/addProduct"
-              element={<AddProduct></AddProduct>}></Route>
+              element={
+                <Middleware>
+                  <AddProduct></AddProduct>
+                </Middleware>
+              }></Route>
             <Route
               path="/admin"
               element={
@@ -43,7 +47,11 @@ function App() {
               }></Route>
             <Route
               path="/editProduct/:id"
-              element={<EditProduct></EditProduct>}></Route>
+              element={
+                <Middleware>
+                  <EditProduct></EditProduct>
+                </Middleware>
+              }></Route>
           </Routes>
         </Router>
       </div>

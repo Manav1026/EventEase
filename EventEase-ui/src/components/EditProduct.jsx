@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { auth } from "../firebase";
 import { FaHome, FaShoppingCart, FaPlusCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { signOut } from "firebase/auth";
 
 export const EditProduct = () => {
   const { id } = useParams();
@@ -30,23 +31,29 @@ export const EditProduct = () => {
     const fetchProduct = async () => {
       try {
         const token = await auth.currentUser.getIdToken();
-        const res = await fetch(`http://localhost:3000/api/vendor/editProduct/${id}`, {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const res = await fetch(
+          `http://localhost:3000/api/vendor/editProduct/${id}`,
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         const data = await res.json();
+        console.log(data);
 
         setForm((prev) => ({
           ...prev,
           ...data,
-          mediaPreview: data.mediaUrl || "",
+          mediaPreview: data.mediaUrl
+            ? `http://localhost:3000${data.mediaUrl}`
+            : "",
           mediaType: data.mediaType || "image",
         }));
       } catch (err) {
-        setError("Failed to load product.");
+        console.log(err + "Failed to load product.");
       } finally {
         setLoading(false);
       }
@@ -87,18 +94,21 @@ export const EditProduct = () => {
 
       const token = await auth.currentUser.getIdToken();
 
-      const res = await fetch(`http://localhost:3000/api/vendor/editProduct/${id}`, {
-        method: "PATCH",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formData,
-      });
+      const res = await fetch(
+        `http://localhost:3000/api/vendor/editProduct/${id}`,
+        {
+          method: "PATCH",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          body: formData,
+        }
+      );
 
-      if (!res.ok) throw new Error("Update failed");
-
-      alert("Product updated successfully.");
-      navigate("/admin");
+      if (res.ok) {
+        alert("Product updated successfully.");
+        navigate("/admin");
+      }
     } catch (e) {
       console.error(e);
       setError("Failed to update product. Try again.");
@@ -111,7 +121,7 @@ export const EditProduct = () => {
     } catch (error) {
       console.error("Logout failed:", error);
     }
-  }
+  };
   if (loading) return <p className="p-6">Loading product...</p>;
   if (error) return <p className="p-6 text-red-600">{error}</p>;
 
@@ -158,21 +168,42 @@ export const EditProduct = () => {
             </button>
           </div>
         </header>
-        <div className="p-6 max-w-7xl mx-auto" style={{overflowY: "auto"}}>
+        <div className="p-6 max-w-7xl mx-auto" style={{ overflowY: "auto" }}>
           <div className="max-w-2xl mx-auto p-6 bg-white shadow rounded">
             <h2 className="text-2xl font-semibold mb-4">Edit Product</h2>
 
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {["name", "sku", "price", "discountedPrice", "color", "size", "quantity", "category"].map((field) => (
+                {[
+                  "name",
+                  "sku",
+                  "price",
+                  "discountedPrice",
+                  "color",
+                  "size",
+                  "quantity",
+                  "category",
+                ].map((field) => (
                   <div key={field}>
-                    <label className="block font-medium capitalize">{field.replace(/([A-Z])/g, " $1")} *</label>
+                    <label className="block font-medium capitalize">
+                      {field.replace(/([A-Z])/g, " $1")} *
+                    </label>
                     <input
-                      type={["price", "discountedPrice", "quantity"].includes(field) ? "number" : "text"}
+                      type={
+                        ["price", "discountedPrice", "quantity"].includes(field)
+                          ? "number"
+                          : "text"
+                      }
                       name={field}
                       value={form[field]}
                       onChange={handleChange}
-                      required={["name", "sku", "price", "quantity", "category"].includes(field)}
+                      required={[
+                        "name",
+                        "sku",
+                        "price",
+                        "quantity",
+                        "category",
+                      ].includes(field)}
                       className="w-full border px-3 py-2 rounded"
                     />
                   </div>
@@ -181,7 +212,11 @@ export const EditProduct = () => {
 
               <div>
                 <label className="block font-medium">Status</label>
-                <select name="status" value={form.status} onChange={handleChange} className="w-full border px-3 py-2 rounded">
+                <select
+                  name="status"
+                  value={form.status}
+                  onChange={handleChange}
+                  className="w-full border px-3 py-2 rounded">
                   <option value="in stock">In Stock</option>
                   <option value="out of stock">Out of Stock</option>
                 </select>
@@ -199,14 +234,29 @@ export const EditProduct = () => {
               </div>
 
               <div>
-                <label className="block font-medium">Upload Image or Video</label>
-                <input type="file" accept="image/*,video/*" onChange={handleMediaChange} className="w-full" />
+                <label className="block font-medium">
+                  Upload Image or Video
+                </label>
+                <input
+                  type="file"
+                  accept="image/*,video/*"
+                  onChange={handleMediaChange}
+                  className="w-full"
+                />
                 {form.mediaPreview && (
                   <div className="mt-2">
                     {form.mediaType === "video" ? (
-                      <video src={form.mediaPreview} controls className="w-full h-64 rounded border" />
+                      <video
+                        src={form.mediaPreview}
+                        controls
+                        className="w-full h-64 rounded border"
+                      />
                     ) : (
-                      <img src={form.mediaPreview} alt="Preview" className="w-full h-64 object-cover rounded border" />
+                      <img
+                        src={form.mediaPreview}
+                        alt="Preview"
+                        className="w-full h-64 object-cover rounded border"
+                      />
                     )}
                   </div>
                 )}
@@ -223,13 +273,15 @@ export const EditProduct = () => {
                 />
               </div>
 
-              <button type="submit" className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
+              <button
+                type="submit"
+                className="bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700">
                 Update Product
               </button>
             </form>
           </div>
-          </div>
         </div>
+      </div>
     </div>
   );
 };
