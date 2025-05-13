@@ -15,11 +15,10 @@ const Product = () => {
     const navigate = useNavigate();
     // console.log(auth.currentUser)
     // const token = auth.currentUser.getIdToken();
-    const {data: product} = useGetData(`http://localhost:3000/api/products/${id}`);
+    const {data: product, loading} = useGetData(`http://localhost:3000/api/products/${id}`);
     const { addToCart, cart } = useContext(CartContext);
     const [ error, setError ] = useState(false);
     const cartIds = cart.map((x) => x._id);
-
     const handleOrder = async (e) => {
       e.preventDefault();
       const orderQuantity = document.getElementById("orderQuantity").value;
@@ -42,7 +41,6 @@ const Product = () => {
 
 
     const user = auth.currentUser;
-    console.log(user)
       const handleLogout = async () => {
         try {
           await signOut(auth);
@@ -114,7 +112,7 @@ const Product = () => {
                   </div>
                 )}
               </header>
-
+        {loading?<h2>Loading...</h2>:
         <div className="bg-white shadow rounded-lg p-4">
             <img
                 src={product?.image}
@@ -129,7 +127,7 @@ const Product = () => {
             <p className="text-sm mt-1">{product?.color}</p>
             <p className="text-sm mt-1">{product?.quantity}</p>
             <p className="font-bold mt-2">${product?.price}/day</p>
-            {(!cartIds.includes(product?._id) && user) && 
+            {(!cartIds.includes(product?._id) && user && product?.status==="in stock") && 
             <div>
                 <form onSubmit={handleOrder}>
                     <input type="number" id="orderQuantity" placeholder="Quantity" max={product?.quantity} min={1} required/>
@@ -144,7 +142,7 @@ const Product = () => {
                     </button>
                 </form>
             </div>}
-        </div>
+        </div>}
       </div>
     );
 };
