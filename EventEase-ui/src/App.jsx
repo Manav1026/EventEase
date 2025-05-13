@@ -21,7 +21,11 @@ function App() {
             <Route path="*" element={<ErrorPage></ErrorPage>}></Route>
             <Route
               path="/"
-              element={<ProductsLandingPage></ProductsLandingPage>}></Route>
+              element={
+                <Middleware>
+                  <ProductsLandingPage></ProductsLandingPage>
+                </Middleware>
+              }></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/register" element={<Register></Register>}></Route>
             <Route
