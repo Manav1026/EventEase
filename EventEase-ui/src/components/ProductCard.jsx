@@ -3,32 +3,47 @@ import { Link } from "react-router-dom";
 
 //TODO Decide if entire card is the link or if there is a button as a link(Don't put a button in the Link)
 
-
-
 const ProductCard = ({ product }) => (
-    //<Link to={`/products/${product._id}`}>
-    <div className="bg-white shadow rounded-lg p-4">
-        <img
-            src={product.image}
-            alt={product.name}
-            className="w-full h-40 object-cover rounded"
-        />
-        <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
-        <p className="text-gray-500">{product.category}</p>
-        <p className="text-sm mt-1">{product.description}</p>
-        <p className="font-bold mt-2">${product.price}/day</p>
-        <Link to={`/products/${product._id}`}>
-            <button className="mt-3 bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">
-                View Details
-            </button>
-        </Link>
+  //<Link to={`/products/${product._id}`}>
+  <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all overflow-hidden flex flex-col">
+    <div className="relative">
+      <img
+        src={product.image}
+        alt={product.name}
+        className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+      />
+      <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+        {product.category}
+      </span>
     </div>
-    //</Link>
+
+    <div className="p-4 flex flex-col flex-1">
+      <h2 className="text-lg font-bold text-gray-800 truncate">
+        {product.name}
+      </h2>
+      <p className="text-sm text-gray-500 line-clamp-2 mt-1">
+        {product.description}
+      </p>
+
+      <div className="mt-auto">
+        <p className="text-green-600 font-semibold mt-3 text-lg">
+          ${product.price}/day
+        </p>
+        <Link to={`/products/${product._id}`}>
+          <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+            View Details
+          </button>
+        </Link>
+      </div>
+    </div>
+  </div>
+  //</Link>
 );
 
 export default ProductCard;
-  
-{/*<a
+
+{
+  /*<a
       href={product.link}
       target="_blank"
       rel="noopener noreferrer"
@@ -47,4 +62,5 @@ export default ProductCard;
   
   
    old format
-   */}
+   */
+}
