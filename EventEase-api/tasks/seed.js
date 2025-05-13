@@ -19,7 +19,7 @@ const main = async () => {
   const reviewsCollection = await reviews();
 
   const itemIds = Array.from({ length: 25 }, () => new ObjectId());
-  const customer1 = new ObjectId();
+  const testCustomer1 = new ObjectId();
   const order1 = new ObjectId();
 
   const inventoryData = [
@@ -331,6 +331,7 @@ const main = async () => {
     relatedProductId: null,
     media: null,
     mediaPreview: null,
+    reservations: {}
   }));
 
   await productsCollection.insertMany(inventoryInsertData);
@@ -353,24 +354,26 @@ const main = async () => {
 
   await customersCollection.insertMany([
     {
-      _id: customer1,
+      _id: testCustomer1,
       name: "Alice Johnson",
       email: "alice@example.com",
       phone: "555-1234",
       address: "123 Event Lane, New York, NY",
+      orders: [order1]
     },
   ]);
 
-  // await ordersCollection.insertMany([
-  //   {
-  //     _id: order1,
-  //     customerId: customer1,
-  //     itemId: item1,
-  //     startDate: new Date("2025-06-01"),
-  //     endDate: new Date("2025-06-03"),
-  //     status: "pending",
-  //   },
-  // ]);
+  await ordersCollection.insertMany([
+    {
+      _id: order1,
+      productIds: [itemIds[0], itemIds[1]],
+      customerId: testCustomer1,
+      itemCount: 2,
+      startDate: new Date("2025-06-01"),
+      endDate: new Date("2025-06-03"),
+      status: "pending",
+    },
+  ]);
 
   // await salesCollection.insertMany([
   //   {

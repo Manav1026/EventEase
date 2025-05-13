@@ -7,7 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { signOut } from "firebase/auth";
 
 const ProductsLandingPage = () => {
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
   const {
     data: products,
     loading,
@@ -20,8 +20,8 @@ const ProductsLandingPage = () => {
   const filteredProducts = (products || []).filter((product) => {
     const search = searchTerm.toLowerCase();
     return (
-      product.name.toLowerCase().includes(search) ||
-      product.category.toLowerCase().includes(search)
+      product?.name && product.name.toString().toLowerCase().includes(search) 
+      //product.category.toLowerCase().includes(search)
     );
   });
   const user = auth.currentUser;
@@ -95,7 +95,7 @@ const ProductsLandingPage = () => {
       <div className="my-6 max-w-2xl mx-auto">
         <input
           type="text"
-          placeholder="Search items by name or category..."
+          placeholder="Search products by name.."
           className="w-full p-3 rounded shadow-sm border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
           value={searchTerm}
           onChange={(e) => {

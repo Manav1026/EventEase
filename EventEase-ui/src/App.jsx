@@ -20,9 +20,7 @@ function App() {
             <Route
               path="/"
               element={
-                <Middleware>
                   <ProductsLandingPage></ProductsLandingPage>
-                </Middleware>
               }></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/register" element={<Register></Register>}></Route>
