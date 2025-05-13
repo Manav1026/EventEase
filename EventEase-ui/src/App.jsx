@@ -5,13 +5,15 @@ import { Register } from "./components/Register";
 import { Dashboard } from "./components/Dashboard";
 import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
-// import Product from "./components/Product";
-// import Checkout from "./components/Checkout";
+import Product from "./components/Product";
+import Checkout from "./components/Checkout";
 import ProductsLandingPage from "./components/AllProducts";
+import { CartContextProvider } from "./components/CartContextProvider";
+
 
 function App() {
   return (
-    <>
+    <CartContextProvider>
       <div>
         <Router>
           <Routes>
@@ -28,10 +30,12 @@ function App() {
             <Route
               path="/addProduct"
               element={<AddProduct></AddProduct>}></Route>
+            <Route path="/products/:id" element={<Product/>}/>
+            <Route path="/checkout" element={<Checkout/>}/>
           </Routes>
         </Router>
       </div>
-    </>
+    </CartContextProvider>
   );
 }
 
