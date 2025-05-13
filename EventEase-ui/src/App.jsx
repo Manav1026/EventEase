@@ -7,14 +7,16 @@ import { Middleware } from "./components/Middleware";
 import { AddProduct } from "./components/AddProduct";
 import { EditProduct } from "./components/EditProduct";
 import { Admin } from "./components/Admin";
-// import Product from "./components/Product";
-// import Checkout from "./components/Checkout";
+import Product from "./components/Product";
+import Checkout from "./components/Checkout";
 import ProductsLandingPage from "./components/AllProducts";
 import { ErrorPage } from "./components/ErrorPage";
+import { CartContextProvider } from "./components/CartContextProvider";
+
 
 function App() {
   return (
-    <>
+    <CartContextProvider>
       <div>
         <Router>
           <Routes>
@@ -56,10 +58,12 @@ function App() {
                   <EditProduct></EditProduct>
                 </Middleware>
               }></Route>
+            <Route path="/products/:id" element={<Product/>}/>
+            <Route path="/checkout" element={<Checkout/>}/>
           </Routes>
         </Router>
       </div>
-    </>
+    </CartContextProvider>
   );
 }
 
