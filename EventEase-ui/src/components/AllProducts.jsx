@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGetData } from "../hooks/useGetData";
 import ProductCard from "./ProductCard";
 import { auth } from "../firebase";
-import { CgProfile } from "react-icons/cg";
+import { CgProfile, CgShoppingCart } from "react-icons/cg";
 import { signOut } from "firebase/auth";
 
 const ProductsLandingPage = () => {
@@ -50,6 +50,11 @@ const ProductsLandingPage = () => {
         <h1 className="text-3xl font-bold text-blue-700">EventEase</h1>
         {user ? (
           <div className="flex items-center space-x-6">
+            <Link to="/checkout"
+              className="flex items-center text-blue-700 hover:text-blue-900 font-medium">
+              <CgShoppingCart size={22} className="mr-1" />
+              Cart
+            </Link>
             <Link
               to="/dashboard"
               className="flex items-center text-blue-700 hover:text-blue-900 font-medium">
