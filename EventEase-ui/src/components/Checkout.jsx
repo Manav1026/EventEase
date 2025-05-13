@@ -5,10 +5,13 @@ import ProductCard from "./ProductCard";
 import { Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { CgProfile, CgGlobeAlt } from "react-icons/cg";
+import { useNavigate } from "react-router-dom";
+
 
 
 
 const Checkout = () => {
+    const navigate = useNavigate();
     const { cart, removeFromCart } = useContext(CartContext);
     const totalCost = useMemo(
         () => cart.reduce((acc, x) => acc + (x.product.price*((new Date(x.endDate)-new Date(x.startDate))/ (1000 * 60 * 60 * 24))), 0),
