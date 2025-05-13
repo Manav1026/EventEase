@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaBoxOpen, FaHeart, FaSignOutAlt, FaHome } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
+import { AiOutlineProduct } from "react-icons/ai";
+import { BsFillPersonVcardFill, BsPersonLinesFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { auth } from "../firebase";
 import { onAuthStateChanged, signOut } from "firebase/auth";
@@ -10,7 +12,7 @@ import { SessionAuth } from "./SessionAuth";
 export const Dashboard = () => {
   SessionAuth();
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState("main");
+  const [activeTab, setActiveTab] = useState("profile");
   const [preview, setPreview] = useState(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const [userInfo, setUserInfo] = useState(null);
@@ -222,20 +224,34 @@ export const Dashboard = () => {
     // </div>
     <div className="flex min-h-screen bg-gray-100">
       <aside className="w-64 bg-white shadow-md">
-        <div className="p-6 border-b text-2xl font-bold text-green-600 text-center">
+        <div
+          className="p-6 border-b text-2xl font-bold text-center"
+          style={{ color: "#1447e6" }}>
           EventEase
         </div>
         <nav className="p-4 flex flex-col gap-4 text-gray-700 text-lg">
           <button
             onClick={() => setActiveTab("main")}
             className="flex items-center gap-2 hover:text-green-600">
-            <FaHome size={20} /> Home
+            <AiOutlineProduct size={20} /> <Link to={"/"}>Home</Link>
           </button>
-
+          <button
+            onClick={() => setActiveTab("profile")}
+            className="flex items-center gap-2 hover:text-green-600">
+            <CgProfile size={20} /> Profile
+          </button>
+          {userInfo.role === "vendor" ? (
+            <button
+              onClick={() => setActiveTab("admin")}
+              className="flex items-center gap-2 hover:text-green-600">
+              <BsPersonLinesFill size={20} />
+              <Link to={"/admin"}>Admin</Link>
+            </button>
+          ) : null}
           <button
             onClick={() => setActiveTab("account")}
             className="flex items-center gap-2 hover:text-green-600">
-            <CgProfile size={20} /> Account
+            <BsFillPersonVcardFill size={20} /> Account
           </button>
           <button
             onClick={() => setActiveTab("orders")}
@@ -251,7 +267,7 @@ export const Dashboard = () => {
       </aside>
 
       <main className="flex-1 p-8 bg-gray-50">
-        {activeTab === "main" && userInfo && (
+        {activeTab === "profile" && userInfo && (
           <div className="bg-white p-8 rounded-lg shadow-md w-full">
             <h2 className="text-3xl font-bold text-gray-800 mb-4">
               Welcome, {userInfo.fullName?.split(" ")[0]} 👋
