@@ -13,7 +13,6 @@ import ProductsLandingPage from "./components/AllProducts";
 import { ErrorPage } from "./components/ErrorPage";
 import { CartContextProvider } from "./components/CartContextProvider";
 
-
 function App() {
   return (
     <CartContextProvider>
@@ -23,11 +22,7 @@ function App() {
             <Route path="*" element={<ErrorPage></ErrorPage>}></Route>
             <Route
               path="/"
-              element={
-                <Middleware>
-                  <ProductsLandingPage></ProductsLandingPage>
-                </Middleware>
-              }></Route>
+              element={<ProductsLandingPage></ProductsLandingPage>}></Route>
             <Route path="/login" element={<Login></Login>}></Route>
             <Route path="/register" element={<Register></Register>}></Route>
             <Route
@@ -58,8 +53,8 @@ function App() {
                   <EditProduct></EditProduct>
                 </Middleware>
               }></Route>
-            <Route path="/products/:id" element={<Product/>}/>
-            <Route path="/checkout" element={<Checkout/>}/>
+            <Route path="/products/:id" element={<Product />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </Router>
       </div>
