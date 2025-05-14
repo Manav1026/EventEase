@@ -208,11 +208,6 @@ export const Admin = () => {
             <span>Profile</span>
           </Link>
           <Link
-            to="/orders"
-            className="flex items-center space-x-3 hover:text-green-600">
-            <FaShoppingCart /> <span>Bookings</span>
-          </Link>
-          <Link
             to="/addProduct"
             className="flex items-center space-x-3 hover:text-green-600">
             <FaPlusCircle /> <span>Add/Import Product</span>
