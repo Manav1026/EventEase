@@ -225,29 +225,35 @@ export const Dashboard = () => {
     // </div>
     <div className="flex min-h-screen bg-gray-100">
       <aside className="w-64 bg-white shadow-md">
-        <div
-          className="p-6 border-b text-2xl font-bold text-center"
-          style={{ color: "#1447e6" }}>
-          <Link to={"/"}>EventEase</Link>
-        </div>
+        <Link to={"/"}>
+          <div
+            className="p-6 border-b text-2xl font-bold text-center"
+            style={{ color: "#1447e6" }}>
+            EventEase
+          </div>
+        </Link>
         <nav className="p-4 flex flex-col gap-4 text-gray-700 text-lg">
-          <button
-            onClick={() => setActiveTab("main")}
-            className="flex items-center gap-2 hover:text-green-600">
-            <AiOutlineProduct size={20} /> <Link to={"/"}>Home</Link>
-          </button>
+          <Link to={"/"}>
+            <button
+              onClick={() => setActiveTab("main")}
+              className="flex items-center gap-2 hover:text-green-600">
+              <AiOutlineProduct size={20} /> Home
+            </button>
+          </Link>
           <button
             onClick={() => setActiveTab("profile")}
             className="flex items-center gap-2 hover:text-green-600">
             <CgProfile size={20} /> Profile
           </button>
           {userInfo.role === "vendor" ? (
-            <button
-              onClick={() => setActiveTab("admin")}
-              className="flex items-center gap-2 hover:text-green-600">
-              <BsPersonLinesFill size={20} />
-              <Link to={"/admin"}>Admin</Link>
-            </button>
+            <Link to={"/admin"}>
+              <button
+                onClick={() => setActiveTab("admin")}
+                className="flex items-center gap-2 hover:text-green-600">
+                <BsPersonLinesFill size={20} />
+                Admin
+              </button>
+            </Link>
           ) : null}
           <button
             onClick={() => setActiveTab("account")}
@@ -468,12 +474,6 @@ export const Dashboard = () => {
         {activeTab === "orders" && (
           <div className="text-xl text-center text-gray-700">
             📦 Order details go here...
-          </div>
-        )}
-
-        {activeTab === "wishlist" && (
-          <div className="text-xl text-center text-gray-700">
-            ❤️ Your wishlist is empty...
           </div>
         )}
       </main>
