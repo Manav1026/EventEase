@@ -80,26 +80,44 @@ const Checkout = () => {
             {cart.map((productPlus) => (
               <div
                 key={productPlus.product._id}
-                className="border rounded-lg p-4 sm:flex items-center gap-6">
-                <div className="flex-1">
-                  <ProductCard product={productPlus.product} />
-                  <div className="mt-2 grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm text-gray-600">
-                    <p>
-                      <span className="font-medium text-gray-800">Qty:</span>{" "}
-                      {productPlus.orderQuantity}
+                className="bg-white border border-gray-300 rounded-xl p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                <div className="flex items-center gap-4 w-full sm:w-3/4">
+                  <img
+                    src={`http://localhost:3000${productPlus.product.mediaUrl}`}
+                    alt={productPlus.product.name}
+                    className="w-28 h-20 object-cover rounded-md shadow-sm"
+                  />
+
+                  <div className="flex flex-col justify-between">
+                    <h2 className="text-lg font-semibold text-gray-800">
+                      {productPlus.product.name}
+                    </h2>
+                    <p className="text-gray-500 text-sm">
+                      {productPlus.product.description}
                     </p>
-                    <p>
-                      <span className="font-medium text-gray-800">From:</span>{" "}
-                      {productPlus.startDate}
+                    <p className="text-green-600 font-bold text-base mt-1">
+                      ${productPlus.product.price}/day
                     </p>
-                    <p>
-                      <span className="font-medium text-gray-800">To:</span>{" "}
-                      {productPlus.endDate}
-                    </p>
+
+                    <div className="mt-2 grid grid-cols-2 sm:grid-cols-3 text-sm text-gray-700 gap-2">
+                      <p>
+                        <span className="font-medium">Qty:</span>{" "}
+                        {productPlus.orderQuantity}
+                      </p>
+                      <p>
+                        <span className="font-medium">From:</span>{" "}
+                        {productPlus.startDate}
+                      </p>
+                      <p>
+                        <span className="font-medium">To:</span>{" "}
+                        {productPlus.endDate}
+                      </p>
+                    </div>
                   </div>
                 </div>
+
                 <button
-                  className="mt-4 sm:mt-0 bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                  className="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700 w-full sm:w-auto"
                   onClick={() => removeFromCart(productPlus._id)}>
                   Remove
                 </button>
