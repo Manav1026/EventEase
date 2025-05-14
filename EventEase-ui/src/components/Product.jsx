@@ -117,7 +117,7 @@ const Product = () => {
       ) : (
         <div className="bg-white shadow-lg rounded-xl p-6 mt-8 max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
           <img
-            ssrc={product.mediaUrl? `http://localhost:3000${product?.mediaUrl}` : "/no_image.jpeg"}
+            src={product.mediaUrl? `http://localhost:3000${product?.mediaUrl}` : "/no_image.jpeg"}
             alt={product?.name}
             className="w-full h-64 object-cover rounded-lg border"
           />
