@@ -73,7 +73,9 @@ export const Login = () => {
   return (
     <div>
       <section className="auth-container">
-        <h1 className="auth-head">EventEase</h1>
+        <h1 className="auth-head" style={{ color: "#1447e6" }}>
+          EventEase
+        </h1>
         <div className="auth-box">
           <h2 className="auth-title">Login</h2>
           {error && <p className="auth-error">{error}</p>}

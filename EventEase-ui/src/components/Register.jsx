@@ -114,7 +114,9 @@ export const Register = () => {
 
   return (
     <section className="auth-container">
-      <h2 className="auth-head mt-1">EventEase</h2>
+      <h2 className="auth-head mt-1" style={{ color: "#1447e6" }}>
+        EventEase
+      </h2>
       <div className="auth-box mb-1">
         <h2 className="auth-title">Registration</h2>
         {error && <p className="auth-error">{error}</p>}
