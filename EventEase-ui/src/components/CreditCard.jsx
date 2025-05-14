@@ -20,6 +20,7 @@ const CreditCard = () => {
     e.preventDefault();
     const token = await auth.currentUser.getIdToken();
 
+    // TODO GET CUSTOMER ID
     const newOrderItems = cart.map((x) => {
       return {
         productId: x._id,
@@ -28,12 +29,12 @@ const CreditCard = () => {
         endDate: x.endDate,
       };
     });
-    const userId = auth.currentUser.uid;
-    
+
     const newOrder = {
-      userId,
+      // customerId,
       products: newOrderItems,
     };
+    console.log(newOrder);
     try {
       // const res = await fetch("http://localhost:3000/orders", {
       //     method: "POST",
@@ -43,7 +44,7 @@ const CreditCard = () => {
       //     body: formData,
       // });
       // const data = await res.json();
-      clearCart();
+      // clearCart();
     } catch (e) {}
   };
 
@@ -57,108 +58,100 @@ const CreditCard = () => {
     setCard((prev) => ({ ...prev, focus: evt.target.name }));
   };
 
-    return (
-        <div className="bg-white shadow-lg rounded-xl p-6 mt-10 max-w-xl mx-auto space-y-6">
-        <h2 className="text-xl font-semibold text-gray-800">Payment Details</h2>
+  return (
+    <div className="bg-white shadow-lg rounded-xl p-6 mt-10 max-w-xl mx-auto space-y-6">
+      <h2 className="text-xl font-semibold text-gray-800">Payment Details</h2>
 
-            <Cards
-                number={card.number}
-                expiry={card.expiry}
-                cvc={card.cvc}
-                name={card.name}
-                focused={card.focus}
-            />
-            <form onSubmit={completeOrder} className="space-y-4 mt-4">
+      <Cards
+        number={card.number}
+        expiry={card.expiry}
+        cvc={card.cvc}
+        name={card.name}
+        focused={card.focus}
+      />
 
-            <div className="grid grid-cols-2 gap-4">
-                <div>
-                    <label
-                        htmlFor="number"
-                        className="block text-sm font-medium text-gray-700 mb-1">
-                        Card Number
-                    </label>
-                <input
-                    type="text"
-                    name="number"
-                    placeholder="Card Number"
-                    maxLength={16}
-                    minLength={16}
-                    pattern="\d{1,16}"
-                    inputMode="numeric"
-                    value={card.number}
-                    onChange={handleInputChange}
-                    onFocus={handleInputFocus}
-                    className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                    required
-                />
-                </div>
-            <div>
-                <label
-                htmlFor="expiry"
-                className="block text-sm font-medium text-gray-700 mb-1">
-                Expiry (MMYY)
-                </label>
-                <input
-                type="text"
-                name="expiry"
-                placeholder="MMYY"
-                maxLength={6}
-                minLength={4}
-                pattern="\d{1,6}"
-                inputMode="numeric"
-                value={card.expiry}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                required
-                />
-            </div>
-            <div>
-                <label
-                htmlFor="cvc"
-                className="block text-sm font-medium text-gray-700 mb-1">
-                CVC
-                </label>
-                <input
-                type="text"
-                name="cvc"
-                placeholder="CVC"
-                maxLength={4}
-                    minLength={3}
-                    pattern="\d{1,4}"
-                    inputMode="numeric"
-                value={card.cvc}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                required
-                />
-            </div>
-            </div>
+      <form onSubmit={completeOrder} className="space-y-4 mt-4">
+        <div>
+          <label
+            htmlFor="number"
+            className="block text-sm font-medium text-gray-700 mb-1">
+            Card Number
+          </label>
+          <input
+            type="text"
+            name="number"
+            placeholder="Card Number"
+            maxLength="16"
+            value={card.number}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
 
-            <div>
+        <div className="grid grid-cols-2 gap-4">
+          <div>
             <label
-                htmlFor="name"
-                className="block text-sm font-medium text-gray-700 mb-1">
-                Cardholder Name
+              htmlFor="expiry"
+              className="block text-sm font-medium text-gray-700 mb-1">
+              Expiry (MMYY)
             </label>
             <input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={card.name}
-                onChange={handleInputChange}
-                onFocus={handleInputFocus}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
-                required
+              type="text"
+              name="expiry"
+              placeholder="MMYY"
+              maxLength="4"
+              value={card.expiry}
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              required
             />
-            </div>
+          </div>
+          <div>
+            <label
+              htmlFor="cvc"
+              className="block text-sm font-medium text-gray-700 mb-1">
+              CVC
+            </label>
+            <input
+              type="text"
+              name="cvc"
+              placeholder="CVC"
+              maxLength="4"
+              value={card.cvc}
+              onChange={handleInputChange}
+              onFocus={handleInputFocus}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+        </div>
 
-            <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
-            Place Order
-            </button>
+        <div>
+          <label
+            htmlFor="name"
+            className="block text-sm font-medium text-gray-700 mb-1">
+            Cardholder Name
+          </label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={card.name}
+            onChange={handleInputChange}
+            onFocus={handleInputFocus}
+            className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+            required
+          />
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+          Place Order
+        </button>
       </form>
     </div>
   );
