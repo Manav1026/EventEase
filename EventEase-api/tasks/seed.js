@@ -36,7 +36,8 @@ const main = async () => {
       quantity: "200",
       category: "Furniture",
       mediaUrl: "/uploads/bui-hoang-long-Dbm9rc_gpsQ-unsplash.jpg", 
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Round Banquet Table",
@@ -50,7 +51,8 @@ const main = async () => {
       quantity: "75",
       category: "Furniture",
       mediaUrl: "/uploads/round-table.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Stage Lighting Kit",
@@ -64,7 +66,8 @@ const main = async () => {
       quantity: "25",
       category: "AV Equipment",
       mediaUrl: "/uploads/stage-light.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Event Tent 10x20ft",
@@ -78,7 +81,8 @@ const main = async () => {
       quantity: "0",
       category: "Shelter",
       mediaUrl: "/uploads/event-tent.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Portable Sound System",
@@ -92,7 +96,8 @@ const main = async () => {
       quantity: "40",
       category: "AV Equipment",
       mediaUrl: "/uploads/Sound-System.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Table Linen Set",
@@ -106,7 +111,8 @@ const main = async () => {
       quantity: "100",
       category: "Decor",
       mediaUrl: "/uploads/Table-Linen-Set.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Stage Platform 4x8ft",
@@ -120,7 +126,8 @@ const main = async () => {
       quantity: "15",
       category: "Staging",
       mediaUrl: "/uploads/Stage-Platform.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "LED Uplight",
@@ -134,7 +141,8 @@ const main = async () => {
       quantity: "120",
       category: "Lighting",
       mediaUrl: "/uploads/LED-Uplight.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Wedding Arch",
@@ -148,7 +156,8 @@ const main = async () => {
       quantity: "10",
       category: "Decor",
       mediaUrl: "/uploads/Wedding-Arch.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Podium with Mic Stand",
@@ -162,7 +171,8 @@ const main = async () => {
       quantity: "8",
       category: "Furniture",
       mediaUrl: "/uploads/Podium-with-Mic-Stand.jpg",
-      mediaType: "image"
+      mediaType: "image",
+      vendorId: "LlJhxYUJDTUbtD84nV9t3ZO51uE2"
     },
     {
       name: "Cocktail Table",
@@ -177,6 +187,7 @@ const main = async () => {
       category: "Furniture",
       mediaUrl: "/uploads/Cocktail Table.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "Chafing Dish Set",
@@ -191,6 +202,7 @@ const main = async () => {
       category: "Catering",
       mediaUrl: "/uploads/Chafing Dish Set.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "Red Carpet Runner",
@@ -205,6 +217,7 @@ const main = async () => {
       category: "Decor",
       mediaUrl: "/uploads/Red Carpet Runner.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "Portable Bar Counter",
@@ -219,6 +232,7 @@ const main = async () => {
       category: "Bar & Beverage",
       mediaUrl: "/uploads/Portable Bar Counter.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "Photo Booth Backdrop Frame",
@@ -233,6 +247,7 @@ const main = async () => {
       category: "Decor",
       mediaUrl: "/uploads/Photo Booth Backdrop Frame.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "Cafe String Lights",
@@ -247,6 +262,7 @@ const main = async () => {
       category: "Lighting",
       mediaUrl: "/uploads/Cafe String Lights.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "Pipe and Drape Kit",
@@ -261,6 +277,7 @@ const main = async () => {
       category: "Decor",
       mediaUrl: "/uploads/Pipe and Drape Kit.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "Glass Drink Dispenser",
@@ -275,6 +292,7 @@ const main = async () => {
       category: "Bar & Beverage",
       mediaUrl: "/uploads/Glass Drink Dispenser.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "Wedding Centerpiece Stand",
@@ -289,6 +307,7 @@ const main = async () => {
       category: "Decor",
       mediaUrl: "/uploads/Wedding Centerpiece Stand.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
     {
       name: "White Event Sofa",
@@ -303,6 +322,7 @@ const main = async () => {
       category: "Furniture",
       mediaUrl: "/uploads/White Event Sofa.jpg",
       mediaType: "image",
+      vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     }
   ];
   
@@ -353,7 +373,7 @@ const main = async () => {
           orders: [order1]
     },
     {
-      firebaseUid: "xraaqOBVqigVxq06xlp02U7REGm1",
+      firebaseUid: "7Zjvk8JogTNWitnuXUyrlbeI3BB2",
       address: null,
       email: "wesley@gmail.com",
       fullName: "wesley",
