@@ -67,6 +67,11 @@ const Product = () => {
               to="/checkout"
               className="flex items-center text-blue-700 hover:text-blue-900 font-medium">
               <CgShoppingCart size={22} className="mr-1" /> Cart
+              {cart.length > 0 && (
+                <span className="relative -top-2 -right-2 bg-off-white-700 hover:bg-blue-900 text-black text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                  {cart.length > 99 ? '99+' : cart.length}
+                </span>
+              )}
             </Link>
             <Link
               to="/dashboard"
