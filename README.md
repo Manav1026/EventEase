@@ -16,6 +16,10 @@ cd EventEase-api
 npm install
 ```
 
+``` bash
+npm run seed
+```
+
 ```bash
 npm run redis
 ```
