@@ -47,7 +47,7 @@ const ProductsLandingPage = () => {
   return (
     <div className="bg-gray-100 min-h-screen px-4 sm:px-8 pb-10">
       <header className="flex justify-between items-center py-6 border-b border-gray-300">
-        <h1 className="text-3xl font-bold text-blue-700">
+        <h1 className="text-3xl font-bold text-blue-800">
           <Link to={"/"}>EventEase</Link>
         </h1>
         {user ? (
@@ -66,7 +66,7 @@ const ProductsLandingPage = () => {
             </Link>
             <button
               onClick={handleLogout}
-              className="flex items-center gap-2 text-gray-700 hover:text-blue-700 transition font-medium">
+              className="flex items-center gap-2 text-gray-700 hover:text-blue-800 transition font-medium">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 className="h-5 w-5"
@@ -86,7 +86,7 @@ const ProductsLandingPage = () => {
         ) : (
           <div className="space-x-4">
             <Link to="/login">
-              <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+              <button className="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Login
               </button>
             </Link>

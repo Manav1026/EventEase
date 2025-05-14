@@ -12,7 +12,7 @@ const ProductCard = ({ product }) => (
         alt={product.name}
         className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
       />
-      <span className="absolute top-2 left-2 bg-blue-600 text-white text-xs font-medium px-3 py-1 rounded-full">
+      <span className="absolute top-2 left-2 bg-yellow-600 text-white text-xs font-medium px-3 py-1 rounded-full">
         {product.category}
       </span>
     </div>
@@ -30,7 +30,7 @@ const ProductCard = ({ product }) => (
           ${product.price}/day
         </p>
         <Link to={`/products/${product._id}`}>
-          <button className="mt-3 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition">
+          <button className="mt-3 w-full bg-sky-400 text-white py-2 rounded-lg hover:bg-blue-700 transition">
             View Details
           </button>
         </Link>
