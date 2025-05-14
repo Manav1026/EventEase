@@ -29,10 +29,9 @@ const ProductCard = ({ product }) => (
         <p className="text-green-600 font-semibold mt-3 text-lg">
           ${product.price}/day
         </p>
-        <Link to={`/products/${product._id}`}>
-          <button className="mt-3 w-full bg-sky-400 text-white py-2 rounded-lg hover:bg-blue-700 transition">
-            View Details
-          </button>
+        <Link to={`/products/${product._id}`} className="block mt-3 w-full bg-sky-400 text-white py-2 text-center rounded-lg hover:bg-blue-700 transition"
+        >
+          View Details
         </Link>
       </div>
     </div>

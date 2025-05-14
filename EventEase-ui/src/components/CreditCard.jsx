@@ -78,6 +78,7 @@ const CreditCard = () => {
             Card Number
           </label>
           <input
+          id="number"
             type="text"
             name="number"
             placeholder="Card Number"
@@ -98,6 +99,7 @@ const CreditCard = () => {
               Expiry (MMYY)
             </label>
             <input
+            id="expiry"
               type="text"
               name="expiry"
               placeholder="MMYY"
@@ -116,6 +118,7 @@ const CreditCard = () => {
               CVC
             </label>
             <input
+            id="cvc"
               type="text"
               name="cvc"
               placeholder="CVC"
@@ -136,6 +139,7 @@ const CreditCard = () => {
             Cardholder Name
           </label>
           <input
+          id="name"
             type="text"
             name="name"
             placeholder="Full Name"

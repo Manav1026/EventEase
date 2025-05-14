@@ -60,7 +60,7 @@ const ProductsLandingPage = () => {
               <CgShoppingCart size={22} className="mr-1" />
               Cart
               {cart.length > 0 && (
-                <span className="relative -top-2 -right-2 bg-blue-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                <span className="relative -top-2 -right-2 bg-sky-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
                   {cart.length > 99 ? '99+' : cart.length}
                 </span>
               )}
@@ -92,15 +92,11 @@ const ProductsLandingPage = () => {
           </div>
         ) : (
           <div className="space-x-4">
-            <Link to="/login">
-              <button className="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <Link to="/login" className="bg-blue-800 text-white px-4 py-2 rounded hover:bg-blue-700">
                 Login
-              </button>
             </Link>
-            <Link to="/register">
-              <button className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
+            <Link to="/register" className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300">
                 Sign Up
-              </button>
             </Link>
           </div>
         )}

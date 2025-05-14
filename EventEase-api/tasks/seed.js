@@ -185,7 +185,7 @@ const main = async () => {
       status: "in stock",
       quantity: "60",
       category: "Furniture",
-      mediaUrl: "/uploads/Cocktail Table.jpg",
+      mediaUrl: "/uploads/Cocktail-Table.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -200,7 +200,7 @@ const main = async () => {
       status: "in stock",
       quantity: "100",
       category: "Catering",
-      mediaUrl: "/uploads/Chafing Dish Set.jpg",
+      mediaUrl: "/uploads/Chafing-Dish-Set.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -215,7 +215,7 @@ const main = async () => {
       status: "in stock",
       quantity: "25",
       category: "Decor",
-      mediaUrl: "/uploads/Red Carpet Runner.jpg",
+      mediaUrl: "/uploads/Red-Carpet-Runner.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -230,7 +230,7 @@ const main = async () => {
       status: "in stock",
       quantity: "15",
       category: "Bar & Beverage",
-      mediaUrl: "/uploads/Portable Bar Counter.jpg",
+      mediaUrl: "/uploads/Portable-Bar-Counter.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -245,7 +245,7 @@ const main = async () => {
       status: "in stock",
       quantity: "30",
       category: "Decor",
-      mediaUrl: "/uploads/Photo Booth Backdrop Frame.jpg",
+      mediaUrl: "/uploads/Photo-Booth-Backdrop-Frame.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -260,7 +260,7 @@ const main = async () => {
       status: "in stock",
       quantity: "90",
       category: "Lighting",
-      mediaUrl: "/uploads/Cafe String Lights.jpg",
+      mediaUrl: "/uploads/Cafe-String-Lights.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -275,7 +275,7 @@ const main = async () => {
       status: "in stock",
       quantity: "20",
       category: "Decor",
-      mediaUrl: "/uploads/Pipe and Drape Kit.jpg",
+      mediaUrl: "/uploads/Pipe-and-Drape-Kit.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -290,7 +290,7 @@ const main = async () => {
       status: "in stock",
       quantity: "50",
       category: "Bar & Beverage",
-      mediaUrl: "/uploads/Glass Drink Dispenser.jpg",
+      mediaUrl: "/uploads/Glass-Drink-Dispenser.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -305,7 +305,7 @@ const main = async () => {
       status: "in stock",
       quantity: "70",
       category: "Decor",
-      mediaUrl: "/uploads/Wedding Centerpiece Stand.jpg",
+      mediaUrl: "/uploads/Wedding-Centerpiece-Stand.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     },
@@ -320,7 +320,7 @@ const main = async () => {
       status: "in stock",
       quantity: "5",
       category: "Furniture",
-      mediaUrl: "/uploads/White Event Sofa.jpg",
+      mediaUrl: "/uploads/White-Event-Sofa.jpg",
       mediaType: "image",
       vendorId: "kLfejceDTvUWwpJtfKpAeDAqcVy1"
     }
