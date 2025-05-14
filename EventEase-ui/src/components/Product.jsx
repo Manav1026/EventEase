@@ -53,13 +53,15 @@ const Product = () => {
   return (
     <div className="bg-gray-100 min-h-screen px-4 sm:px-8 pb-10">
       <header className="flex justify-between items-center py-6 border-b border-gray-300">
-        <h1 className="text-3xl font-bold text-blue-700">EventEase</h1>
+        <h1 className="text-3xl font-bold text-blue-700">
+          <Link to={"/"}>EventEase</Link>
+        </h1>
         {user ? (
           <div className="flex items-center space-x-6">
             <Link
               to="/"
               className="flex items-center text-blue-700 hover:text-blue-900 font-medium">
-              <CgGlobeAlt size={22} className="mr-1" /> Back to Browse
+              <CgGlobeAlt size={22} className="mr-1" /> Home
             </Link>
             <Link
               to="/checkout"

@@ -213,7 +213,7 @@ export const AddProduct = () => {
         body: formData,
       });
       if (!res.ok) {
-        const text = await res.text(); // <-- read as plain text instead of JSON
+        const text = await res.text();
         console.error("Server response:", text);
         alert("Upload failed.");
         return;
@@ -237,8 +237,8 @@ export const AddProduct = () => {
       <aside className="w-64 bg-white shadow-lg">
         <div
           className="p-6 text-2xl font-extrabold text-center text-green-600 border-b border-gray-200"
-          style={{ marginTop: "7.7px" }}>
-          EventEase
+          style={{ marginTop: "7.7px", color: "#1447e6" }}>
+          <Link to={"/"}>EventEase</Link>
         </div>
         <nav className="p-4 space-y-4 text-gray-700">
           <Link
