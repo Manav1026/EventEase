@@ -35,7 +35,9 @@ const Checkout = () => {
   return (
     <div className="bg-gray-100 min-h-screen px-4 sm:px-8 pb-10">
       <header className="flex justify-between items-center py-6 border-b border-gray-300">
-        <h1 className="text-3xl font-bold text-blue-700">EventEase</h1>
+        <h1 className="text-3xl font-bold text-blue-700">
+          <Link to={"/"}>EventEase</Link>
+        </h1>
         <div className="flex items-center space-x-6">
           <Link
             to="/"

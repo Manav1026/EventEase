@@ -228,7 +228,7 @@ export const Dashboard = () => {
         <div
           className="p-6 border-b text-2xl font-bold text-center"
           style={{ color: "#1447e6" }}>
-          EventEase
+          <Link to={"/"}>EventEase</Link>
         </div>
         <nav className="p-4 flex flex-col gap-4 text-gray-700 text-lg">
           <button

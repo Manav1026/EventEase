@@ -53,8 +53,22 @@ function App() {
                   <EditProduct></EditProduct>
                 </Middleware>
               }></Route>
-            <Route path="/products/:id" element={<Product />} />
-            <Route path="/checkout" element={<Checkout />} />
+            <Route
+              path="/products/:id"
+              element={
+                <Middleware>
+                  <Product />
+                </Middleware>
+              }
+            />
+            <Route
+              path="/checkout"
+              element={
+                <Middleware>
+                  <Checkout />
+                </Middleware>
+              }
+            />
           </Routes>
         </Router>
       </div>
