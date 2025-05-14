@@ -18,7 +18,6 @@ export const EditProduct = () => {
     status: "in stock",
     quantity: "",
     category: "",
-    relatedProductId: "",
     media: null,
     mediaPreview: "",
     mediaType: "image",
@@ -260,17 +259,6 @@ export const EditProduct = () => {
                     )}
                   </div>
                 )}
-              </div>
-
-              <div>
-                <label className="block font-medium">Related Product ID</label>
-                <input
-                  type="text"
-                  name="relatedProductId"
-                  value={form.relatedProductId}
-                  onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
               </div>
 
               <button

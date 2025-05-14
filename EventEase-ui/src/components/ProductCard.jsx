@@ -8,7 +8,7 @@ const ProductCard = ({ product }) => (
   <div className="bg-white rounded-2xl shadow-md hover:shadow-lg transition-all overflow-hidden flex flex-col">
     <div className="relative">
       <img
-        src={product.image}
+        src={product.mediaUrl? `http://localhost:3000${product?.mediaUrl}` : "/no_image.jpeg"}
         alt={product.name}
         className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
       />

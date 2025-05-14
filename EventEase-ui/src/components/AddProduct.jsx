@@ -23,7 +23,6 @@ const initialForm = {
   status: "in stock",
   quantity: "",
   category: "",
-  relatedProductId: "",
   media: null,
   mediaPreview: "",
 };
@@ -39,7 +38,6 @@ export const AddProduct = () => {
   //   const [status, setStatus] = useState("");
   //   const [quantity, setQuantity] = useState("");
   //   const [category, setCategory] = useState("");
-  //   const [relatedProductId, setRelatedProductId] = useState("");
   //   const [mediaUrl, setMediaUrl] = useState("");
   //   const [mediaType, setMediaType] = useState("");
   const [csvFile, setCsvFile] = useState(null);
@@ -66,7 +64,7 @@ export const AddProduct = () => {
     }));
   };
   const handleDownloadSampleCSV = () => {
-    const sampleData = `name,sku,description,price,discountedPrice,color,size,status,quantity,category,relatedProductId,vendorId
+    const sampleData = `name,sku,description,price,discountedPrice,color,size,status,quantity,category,vendorId
   Sample Product,SKU123,Example description,19.99,14.99,Red,M,in stock,100,Clothing,vendor123`;
 
     const blob = new Blob([sampleData], { type: "text/csv;charset=utf-8;" });
@@ -162,7 +160,6 @@ export const AddProduct = () => {
         status,
         quantity,
         category,
-        relatedProductId,
         media,
         mediaType,
       } = form;
@@ -201,7 +198,6 @@ export const AddProduct = () => {
       formData.append("status", status || "in stock");
       formData.append("quantity", parseInt(quantity));
       formData.append("category", category);
-      formData.append("relatedProductId", relatedProductId || "");
       formData.append("vendorId", userId);
       formData.append("mediaType", mediaType || "");
 
@@ -448,17 +444,6 @@ export const AddProduct = () => {
                     )}
                   </div>
                 )}
-              </div>
-
-              <div>
-                <label className="block font-medium">Related Product ID</label>
-                <input
-                  type="text"
-                  name="relatedProductId"
-                  value={form.relatedProductId}
-                  onChange={handleChange}
-                  className="w-full border px-3 py-2 rounded"
-                />
               </div>
 
               <button
