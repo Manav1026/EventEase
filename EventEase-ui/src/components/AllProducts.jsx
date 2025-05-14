@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useGetData } from "../hooks/useGetData";
 import ProductCard from "./ProductCard";
 import { auth } from "../firebase";
 import { CgProfile, CgShoppingCart } from "react-icons/cg";
 import { signOut } from "firebase/auth";
+import { CartContext } from "./CartContextProvider";
+
 
 const ProductsLandingPage = () => {
   const navigate = useNavigate();
@@ -15,8 +17,8 @@ const ProductsLandingPage = () => {
   } = useGetData("http://localhost:3000/api/all-products");
   const [searchTerm, setSearchTerm] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const { cart } = useContext(CartContext);
   const itemsPerPage = 12;
-
   const filteredProducts = (products || []).filter((product) => {
     const search = searchTerm.toLowerCase();
     return (
@@ -57,6 +59,11 @@ const ProductsLandingPage = () => {
               className="flex items-center text-blue-700 hover:text-blue-900 font-medium">
               <CgShoppingCart size={22} className="mr-1" />
               Cart
+              {cart.length > 0 && (
+                <span className="relative -top-2 -right-2 bg-blue-500 text-white text-xs font-bold rounded-full w-6 h-6 flex items-center justify-center">
+                  {cart.length > 99 ? '99+' : cart.length}
+                </span>
+              )}
             </Link>
             <Link
               to="/dashboard"
